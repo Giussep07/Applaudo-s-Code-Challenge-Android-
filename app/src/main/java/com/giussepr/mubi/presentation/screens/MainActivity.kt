@@ -1,4 +1,4 @@
-package com.giussepr.mubi
+package com.giussepr.mubi.presentation.screens
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,7 +10,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.giussepr.mubi.ui.theme.MubiTheme
+import com.giussepr.mubi.presentation.ui.theme.MubiTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
