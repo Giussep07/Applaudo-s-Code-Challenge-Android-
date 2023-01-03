@@ -1,4 +1,4 @@
-package com.giussepr.mubi.presentation.ui.theme
+package com.giussepr.mubi.presentation.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
@@ -36,7 +36,7 @@ fun MubiTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable (
     }
 
     MaterialTheme(
-        colors = colors,
+        colors = LightColorPalette,
         typography = Typography,
         shapes = Shapes,
         content = content

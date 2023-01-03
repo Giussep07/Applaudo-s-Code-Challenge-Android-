@@ -1,4 +1,4 @@
-package com.giussepr.mubi.presentation.ui.theme
+package com.giussepr.mubi.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
