@@ -66,6 +66,14 @@ dependencies {
     // Hilt
     implementation "com.google.dagger:hilt-android:$dagger_version"
     kapt "com.google.dagger:hilt-android-compiler:$dagger_version"
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    // JSON Converter
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    // Loggin Interceptor
+    implementation 'com.squareup.okhttp3:okhttp:4.9.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.2'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
