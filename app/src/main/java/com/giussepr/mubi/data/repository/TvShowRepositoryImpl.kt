@@ -5,27 +5,18 @@
 
 package com.giussepr.mubi.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import com.giussepr.mubi.data.paging.TvShowPagingSource
 import com.giussepr.mubi.data.repository.datasource.TvShowRemoteDataSource
-import com.giussepr.mubi.domain.model.Result
 import com.giussepr.mubi.domain.repository.TvShowRepository
 import javax.inject.Inject
-import com.giussepr.mubi.domain.model.Result.*
-import com.giussepr.mubi.domain.model.TvShow
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class TvShowRepositoryImpl @Inject constructor(private val tvShowRemoteDataSource: TvShowRemoteDataSource) :
   TvShowRepository {
 
-  override fun getTopRatedTvShows(): Flow<Result<List<TvShow>>> = flow {
-    val response = tvShowRemoteDataSource.getTopRatedTvShows()
-
-    if (response.isSuccessful) {
-      response.body()?.let { result ->
-        emit(Success(result.results.map { it.toDomainTvShow() }))
-      } ?: emit(Error(response.message()))
-    } else {
-      emit(Error(response.message()))
-    }
-  }
+  override fun getTopRatedTvShows() = Pager(
+    config = PagingConfig(pageSize = 20),
+    pagingSourceFactory = { TvShowPagingSource(tvShowRemoteDataSource) }
+  ).flow
 }

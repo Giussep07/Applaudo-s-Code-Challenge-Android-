@@ -16,5 +16,6 @@ class TvShowRemoteDataSourceImpl(
   @Named(Constants.API_KEY) private val apiKey: String
 ) : TvShowRemoteDataSource {
 
-  override suspend fun getTopRatedTvShows(): Response<TvShowResponseDTO> = tmdbApi.getTopRatedTvShows(apiKey)
+  override suspend fun getTopRatedTvShows(page: Int): Response<TvShowResponseDTO> =
+    tmdbApi.getTopRatedTvShows(apiKey = apiKey, page = page)
 }

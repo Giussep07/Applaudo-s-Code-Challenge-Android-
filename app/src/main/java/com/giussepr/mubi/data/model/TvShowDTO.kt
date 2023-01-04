@@ -11,9 +11,9 @@ import com.google.gson.annotations.SerializedName
 data class TvShowDTO(
   val id: Int,
   @SerializedName("backdrop_path")
-  val backdropPath: String,
+  val backdropPath: String?,
   @SerializedName("first_air_date")
-  val firstAirDate: String,
+  val firstAirDate: String?,
   @SerializedName("genre_ids")
   val genreIds: List<Int>,
   val name: String,
@@ -26,7 +26,7 @@ data class TvShowDTO(
   val overview: String,
   val popularity: Double,
   @SerializedName("poster_path")
-  val posterPath: String,
+  val posterPath: String?,
   @SerializedName("vote_average")
   val voteAverage: Double,
   @SerializedName("vote_count")
@@ -36,8 +36,8 @@ data class TvShowDTO(
   fun toDomainTvShow(): TvShow {
     return TvShow(
       id = id,
-      backdropPath = backdropPath,
-      firstAirDate = firstAirDate,
+      backdropPath = backdropPath ?: posterPath ?: "",
+      firstAirDate = firstAirDate ?: "",
       genreIds = genreIds,
       name = name,
       originCountry = originCountry,
@@ -45,7 +45,7 @@ data class TvShowDTO(
       originalName = originalName,
       overview = overview,
       popularity = popularity,
-      posterPath = posterPath,
+      posterPath = posterPath ?: "",
       voteAverage = voteAverage,
       voteCount = voteCount
     )

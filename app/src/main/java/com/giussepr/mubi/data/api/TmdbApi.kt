@@ -15,7 +15,7 @@ interface TmdbApi {
   @GET("tv/top_rated")
   suspend fun getTopRatedTvShows(
     @Query("api_key") apiKey: String,
-    @Query("language") language: String = "en-US",
-    @Query("page") page: Int = 1
+    @Query("page") page: Int,
+    @Query("language") language: String = "en-US"
   ): Response<TvShowResponseDTO>
 }

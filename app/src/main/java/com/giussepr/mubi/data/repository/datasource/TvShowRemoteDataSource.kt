@@ -9,5 +9,5 @@ import com.giussepr.mubi.data.model.TvShowResponseDTO
 import retrofit2.Response
 
 interface TvShowRemoteDataSource {
-  suspend fun getTopRatedTvShows(): Response<TvShowResponseDTO>
+  suspend fun getTopRatedTvShows(page: Int): Response<TvShowResponseDTO>
 }

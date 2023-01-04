@@ -5,10 +5,10 @@
 
 package com.giussepr.mubi.domain.repository
 
-import com.giussepr.mubi.domain.model.Result
+import androidx.paging.PagingData
 import com.giussepr.mubi.domain.model.TvShow
 import kotlinx.coroutines.flow.Flow
 
 interface TvShowRepository {
-  fun getTopRatedTvShows(): Flow<Result<List<TvShow>>>
+  fun getTopRatedTvShows(): Flow<PagingData<TvShow>>
 }

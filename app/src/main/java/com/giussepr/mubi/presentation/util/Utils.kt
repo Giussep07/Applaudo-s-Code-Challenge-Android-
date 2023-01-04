@@ -10,6 +10,7 @@ import java.text.DecimalFormatSymbols
 
 fun Double.formatToRating(): String {
     val decimalFormat = DecimalFormat("#.0")
+    decimalFormat.roundingMode = java.math.RoundingMode.DOWN
     decimalFormat.decimalFormatSymbols = DecimalFormatSymbols().apply {
         decimalSeparator = '.'
     }
