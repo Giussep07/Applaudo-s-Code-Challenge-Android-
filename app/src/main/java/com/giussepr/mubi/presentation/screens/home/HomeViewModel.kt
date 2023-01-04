@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.giussepr.mubi.domain.model.TvShow
+import com.giussepr.mubi.domain.usecase.GetAiringTodayTvShowsUseCase
 import com.giussepr.mubi.domain.usecase.GetOnTvTvShowsUseCase
 import com.giussepr.mubi.domain.usecase.GetPopularTvShowsUseCase
 import com.giussepr.mubi.domain.usecase.GetTopRatedTvShowsUseCase
@@ -24,6 +25,7 @@ class HomeViewModel @Inject constructor(
   private val getTopRatedTvShowsUseCase: GetTopRatedTvShowsUseCase,
   private val getPopularTvShowsUseCase: GetPopularTvShowsUseCase,
   private val getOnTvTvShowsUseCase: GetOnTvTvShowsUseCase,
+  private val getAiringTodayTvShowsUseCase: GetAiringTodayTvShowsUseCase
 ) : ViewModel() {
 
   private val _tvShowFilter: MutableStateFlow<TvShowFilter> =
@@ -47,7 +49,9 @@ class HomeViewModel @Inject constructor(
       TvShowFilter.ON_TV -> {
         _tvShowList.value = getOnTvTvShowsUseCase().cachedIn(viewModelScope)
       }
-      else -> {}
+      TvShowFilter.AIRING_TODAY -> {
+        _tvShowList.value = getAiringTodayTvShowsUseCase().cachedIn(viewModelScope)
+      }
     }
   }
 }
