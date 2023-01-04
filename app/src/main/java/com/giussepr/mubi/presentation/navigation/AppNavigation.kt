@@ -7,11 +7,14 @@ package com.giussepr.mubi.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.giussepr.mubi.presentation.screens.home.HomeScreen
 import com.giussepr.mubi.presentation.screens.search.SearchScreen
 import com.giussepr.mubi.presentation.screens.splash.SplashScreen
+import com.giussepr.mubi.presentation.screens.tvshowdetail.TvShowDetailScreen
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
@@ -24,6 +27,15 @@ fun AppNavigation(navController: NavHostController) {
     }
     composable(AppScreens.Search.route) {
       SearchScreen(navController)
+    }
+    composable(
+      route = AppScreens.TvShowDetail.route
+        .plus("?{tvShowDetailJson}"),
+      arguments = listOf(
+        navArgument("tvShowDetailJson") { type = NavType.StringType },
+      )
+    ) {
+      TvShowDetailScreen(navController)
     }
   }
 }

@@ -16,12 +16,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -32,10 +35,7 @@ import com.giussepr.mubi.domain.error.ApiException
 import com.giussepr.mubi.domain.error.DomainException
 import com.giussepr.mubi.domain.error.NoTvShowsResultsException
 import com.giussepr.mubi.domain.model.TvShow
-import com.giussepr.mubi.presentation.theme.ColorText
-import com.giussepr.mubi.presentation.theme.RatingTextColor
-import com.giussepr.mubi.presentation.theme.Red
-import com.giussepr.mubi.presentation.theme.White
+import com.giussepr.mubi.presentation.theme.*
 import com.giussepr.mubi.presentation.util.formatToRating
 import kotlin.math.ceil
 
@@ -48,7 +48,7 @@ fun MubiTopAppBarPreview() {
 @Composable
 @Preview
 fun MubiRatingBarPreview() {
-  MubiRatingBar(8.7, Modifier.padding(start = 12.dp, top = 4.dp))
+  MubiRatingBar(8.7)
 }
 
 @Composable
@@ -109,7 +109,13 @@ fun ProfileAction(onProfileClicked: () -> Unit) {
 }
 
 @Composable
-fun MubiRatingBar(voteAverage: Double, modifier: Modifier) {
+fun MubiRatingBar(
+  voteAverage: Double,
+  modifier: Modifier = Modifier,
+  starColor: Color = Turquoise,
+  showRatingNumber: Boolean = true,
+  starSpacing: Dp = 2.dp
+) {
   // Calculate the voteAverage in scale of 5
   val rating = (voteAverage / 10) * 5
 
@@ -121,10 +127,15 @@ fun MubiRatingBar(voteAverage: Double, modifier: Modifier) {
     modifier = modifier
       .fillMaxWidth()
       .padding(vertical = 4.dp),
-    verticalAlignment = Alignment.CenterVertically
+    verticalAlignment = Alignment.CenterVertically,
+    horizontalArrangement = Arrangement.spacedBy(starSpacing)
   ) {
     repeat(filledStars) {
-      Image(painter = painterResource(id = R.drawable.ic_star_filled), contentDescription = null)
+      Image(
+        painter = painterResource(id = R.drawable.ic_star_filled),
+        contentDescription = null,
+        colorFilter = ColorFilter.tint(starColor)
+      )
     }
 
     if (partialStar > 0) {
@@ -132,10 +143,12 @@ fun MubiRatingBar(voteAverage: Double, modifier: Modifier) {
         Image(
           painter = painterResource(id = R.drawable.ic_star_unfilled),
           contentDescription = null,
+          colorFilter = ColorFilter.tint(starColor)
         )
         Image(
           painter = painterResource(id = R.drawable.ic_star_filled),
           contentDescription = null,
+          colorFilter = ColorFilter.tint(starColor),
           modifier = Modifier.drawWithContent {
             clipRect(right = size.width * partialStar.toFloat()) {
               this@drawWithContent.drawContent()
@@ -148,17 +161,20 @@ fun MubiRatingBar(voteAverage: Double, modifier: Modifier) {
       repeat(unfilledStars) {
         Image(
           painter = painterResource(id = R.drawable.ic_star_unfilled),
-          contentDescription = null
+          contentDescription = null,
+          colorFilter = ColorFilter.tint(starColor)
         )
       }
     }
 
-    Text(
-      text = rating.formatToRating(),
-      style = MaterialTheme.typography.body2,
-      color = RatingTextColor,
-      modifier = Modifier.padding(start = 8.dp)
-    )
+    if (showRatingNumber) {
+      Text(
+        text = rating.formatToRating(),
+        style = MaterialTheme.typography.body2,
+        color = RatingTextColor,
+        modifier = Modifier.padding(start = 8.dp)
+      )
+    }
   }
 }
 
@@ -214,20 +230,17 @@ fun TvShowLoading() {
 @Composable
 fun TvShowError(error: Throwable, pagingItems: LazyPagingItems<TvShow>) {
   val errorMessage = when (error) {
-    is NoTvShowsResultsException -> stringResource(id = R.string.no_tv_shows_results)
     is ApiException -> error.message
     is DomainException -> error.message
     else -> "Something went wrong"
   }
-
-  val textColor = if (error != NoTvShowsResultsException) Red else ColorText
 
   Column(
     modifier = Modifier
       .fillMaxSize()
       .padding(vertical = 16.dp), horizontalAlignment = Alignment.CenterHorizontally
   ) {
-    Text(text = errorMessage, style = MaterialTheme.typography.h6, color = textColor)
+    Text(text = errorMessage, style = MaterialTheme.typography.h6, color = Red)
     Spacer(modifier = Modifier.height(16.dp))
     if (error != NoTvShowsResultsException) {
       Button(onClick = { pagingItems.retry() }) {

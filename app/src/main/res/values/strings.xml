@@ -6,4 +6,5 @@
     <string name="back">Back</string>
   <string name="navigate_back_description">Navigate back</string>
   <string name="no_tv_shows_results">No Tv shows results</string>
+  <string name="summary_title">Summary</string>
 </resources>

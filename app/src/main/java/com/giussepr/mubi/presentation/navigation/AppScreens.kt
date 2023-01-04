@@ -9,4 +9,9 @@ sealed class AppScreens(val route: String) {
   object SplashScreen : AppScreens("splash_screen")
   object Home : AppScreens("home")
   object Search : AppScreens("search")
+  object TvShowDetail : AppScreens("tv_show_detail")
+
+  fun withArg(arg: String): String {
+    return "$route?$arg"
+  }
 }

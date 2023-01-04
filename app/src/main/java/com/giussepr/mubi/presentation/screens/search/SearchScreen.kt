@@ -57,46 +57,59 @@ fun SearchScreen(navController: NavHostController, viewModel: SearchViewModel = 
         })
     }) { paddingValues ->
     viewModel.tvShowList.collectAsState().value?.collectAsLazyPagingItems()?.let { tvShowList ->
-      LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        modifier = Modifier.fillMaxSize().padding(paddingValues)
-      ) {
-        items(tvShowList.itemCount) { index ->
-          tvShowList[index]?.let {
-            TvShowListItem(tvShow = it, onTvShowItemClicked = { /*TODO*/ })
-          }
+
+      if (tvShowList.itemCount == 0) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+          Text(
+            text = stringResource(id = R.string.no_tv_shows_results),
+            style = MaterialTheme.typography.h6,
+            color = ColorText
+          )
         }
+      } else {
+        LazyVerticalGrid(
+          columns = GridCells.Fixed(2),
+          modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+        ) {
+          items(tvShowList.itemCount) { index ->
+            tvShowList[index]?.let {
+              TvShowListItem(tvShow = it, onTvShowItemClicked = { /*TODO*/ })
+            }
+          }
 
-        // First pagination load
-        when (val state = tvShowList.loadState.refresh) {
-          is LoadState.Loading -> {
-            item(span = { GridItemSpan(2) }) {
-              TvShowLoading()
+          // First pagination load
+          when (val state = tvShowList.loadState.refresh) {
+            is LoadState.Loading -> {
+              item(span = { GridItemSpan(2) }) {
+                TvShowLoading()
+              }
             }
-          }
-          is LoadState.Error -> {
-            item(span = { GridItemSpan(2) }) {
-              TvShowError(error = state.error, tvShowList)
+            is LoadState.Error -> {
+              item(span = { GridItemSpan(2) }) {
+                TvShowError(error = state.error, tvShowList)
+              }
             }
+            else -> {}
           }
-          else -> {}
-        }
 
-        tvShowList.loadState.refresh
+          tvShowList.loadState.refresh
 
-        // Pagination
-        when (val state = tvShowList.loadState.append) {
-          is LoadState.Loading -> {
-            item(span = { GridItemSpan(2) }) {
-              TvShowLoading()
+          // Pagination
+          when (val state = tvShowList.loadState.append) {
+            is LoadState.Loading -> {
+              item(span = { GridItemSpan(2) }) {
+                TvShowLoading()
+              }
             }
-          }
-          is LoadState.Error -> {
-            item(span = { GridItemSpan(2) }) {
-              TvShowError(error = state.error, tvShowList)
+            is LoadState.Error -> {
+              item(span = { GridItemSpan(2) }) {
+                TvShowError(error = state.error, tvShowList)
+              }
             }
+            else -> {}
           }
-          else -> {}
         }
       }
     }

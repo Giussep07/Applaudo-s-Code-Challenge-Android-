@@ -5,6 +5,8 @@
 
 package com.giussepr.mubi.domain.model
 
+import com.giussepr.mubi.presentation.screens.tvshowdetail.model.UiTvShowDetail
+
 
 data class TvShow(
   val id: Int,
@@ -21,8 +23,22 @@ data class TvShow(
   val voteAverage: Double,
   val voteCount: Int,
   val imageUrl: String = "$IMAGE_BASE_URL$backdropPath",
+  val detailImageUrl: String = "$DETAIL_IMAGE_BASE_URL$backdropPath",
 ) {
+
+  fun toUiTvShowDetail(): UiTvShowDetail {
+    return UiTvShowDetail(
+      id = id,
+      imageUrl = detailImageUrl,
+      originalName = originalName,
+      name = name,
+      averageRate = voteAverage,
+      overview = overview,
+    )
+  }
+
   companion object {
     private const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w300"
+    private const val DETAIL_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w780"
   }
 }

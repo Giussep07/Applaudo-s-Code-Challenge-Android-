@@ -15,29 +15,19 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.LoadState
-import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import coil.compose.AsyncImage
-import com.giussepr.mubi.R
-import com.giussepr.mubi.domain.error.ApiException
-import com.giussepr.mubi.domain.error.DomainException
-import com.giussepr.mubi.domain.error.NoTvShowsResultsException
-import com.giussepr.mubi.domain.model.TvShow
 import com.giussepr.mubi.presentation.navigation.AppScreens
 import com.giussepr.mubi.presentation.screens.home.TvShowFilter.*
 import com.giussepr.mubi.presentation.theme.*
 import com.giussepr.mubi.presentation.widgets.*
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 @Preview(showSystemUi = true, showBackground = true)
@@ -90,7 +80,7 @@ fun HomeScreen(navController: NavHostController, viewModel: HomeViewModel = hilt
       ) {
         items(tvShowList.itemCount) { index ->
           tvShowList[index]?.let {
-            TvShowListItem(tvShow = it, onTvShowItemClicked = { /*TODO*/ })
+            TvShowListItem(tvShow = it, onTvShowItemClicked = { viewModel.onTvShowItemClicked(it) })
           }
         }
 
@@ -124,6 +114,15 @@ fun HomeScreen(navController: NavHostController, viewModel: HomeViewModel = hilt
             }
           }
           else -> {}
+        }
+      }
+
+      LaunchedEffect(key1 = Unit) {
+        viewModel.navigateToTvShowDetails.collectLatest { value ->
+          if (value.isNotEmpty()) {
+            viewModel.navigateToTvShowDetailsHandled()
+            navController.navigate(AppScreens.TvShowDetail.withArg(value))
+          }
         }
       }
     }

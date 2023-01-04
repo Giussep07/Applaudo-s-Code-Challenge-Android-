@@ -11,7 +11,6 @@ import com.giussepr.mubi.data.model.ResponseErrorBody
 import com.giussepr.mubi.data.repository.datasource.TvShowRemoteDataSource
 import com.giussepr.mubi.domain.error.ApiException
 import com.giussepr.mubi.domain.error.DomainException
-import com.giussepr.mubi.domain.error.NoTvShowsResultsException
 import com.giussepr.mubi.domain.model.TvShow
 import com.google.gson.Gson
 import javax.inject.Inject
@@ -35,17 +34,11 @@ class SearchTvShowsPagingSource @Inject constructor(
 
       if (response.isSuccessful) {
         response.body()?.let { tvShowResponseDTO ->
-          val data = tvShowResponseDTO.results.map { it.toDomainTvShow() }
-
-          if (data.isEmpty()) {
-            LoadResult.Error(NoTvShowsResultsException)
-          } else {
-            LoadResult.Page(
-              data = tvShowResponseDTO.results.map { it.toDomainTvShow() },
-              prevKey = null,
-              nextKey = if (tvShowResponseDTO.results.isEmpty()) null else page.plus(1)
-            )
-          }
+          LoadResult.Page(
+            data = tvShowResponseDTO.results.map { it.toDomainTvShow() },
+            prevKey = null,
+            nextKey = if (tvShowResponseDTO.results.isEmpty()) null else page.plus(1)
+          )
         } ?: LoadResult.Error(Exception(response.message()))
       } else {
         response.errorBody()?.let { responseBody ->
