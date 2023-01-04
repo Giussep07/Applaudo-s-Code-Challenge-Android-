@@ -35,4 +35,8 @@ object UseCaseModule {
   @Provides
   fun provideSearchTvShowsByTextUseCase(tvShowRepository: TvShowRepository) =
     SearchTvShowsByTextUseCase(tvShowRepository)
+
+  @Provides
+  fun provideGetTvShowDetailsUseCase(tvShowRepository: TvShowRepository) =
+    GetTvShowDetailsUseCase(tvShowRepository)
 }

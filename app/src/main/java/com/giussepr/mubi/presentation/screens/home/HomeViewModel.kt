@@ -65,6 +65,10 @@ class HomeViewModel @Inject constructor(
     val uiTvShowDetailJson = gson.toJson(tvShow.toUiTvShowDetail())
     _navigateToTvShowDetails.value = uiTvShowDetailJson
   }
+
+  fun navigateToTvShowDetailsHandled() {
+    _navigateToTvShowDetails.value = ""
+  }
 }
 
 

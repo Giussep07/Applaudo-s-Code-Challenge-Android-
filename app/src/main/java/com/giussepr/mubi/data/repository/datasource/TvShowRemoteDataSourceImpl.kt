@@ -6,6 +6,7 @@
 package com.giussepr.mubi.data.repository.datasource
 
 import com.giussepr.mubi.data.api.TmdbApi
+import com.giussepr.mubi.data.model.TvShowDetailsDTO
 import com.giussepr.mubi.data.model.TvShowResponseDTO
 import com.giussepr.mubi.presentation.util.Constants
 import retrofit2.Response
@@ -30,4 +31,7 @@ class TvShowRemoteDataSourceImpl(
 
   override suspend fun searchTvShowsByTerm(searchTerm: String, page: Int): Response<TvShowResponseDTO> =
     tmdbApi.searchTvShowsByTerm(apiKey = apiKey, searchTerm = searchTerm, page = page)
+
+  override suspend fun getTvShowDetails(tvShowId: Int): Response<TvShowDetailsDTO> =
+    tmdbApi.getTvShowDetails(tvShowId = tvShowId, apiKey = apiKey)
 }
