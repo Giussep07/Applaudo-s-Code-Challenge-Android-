@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.giussepr.mubi.domain.model.TvShow
+import com.giussepr.mubi.domain.usecase.GetOnTvTvShowsUseCase
 import com.giussepr.mubi.domain.usecase.GetPopularTvShowsUseCase
 import com.giussepr.mubi.domain.usecase.GetTopRatedTvShowsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
   private val getTopRatedTvShowsUseCase: GetTopRatedTvShowsUseCase,
   private val getPopularTvShowsUseCase: GetPopularTvShowsUseCase,
+  private val getOnTvTvShowsUseCase: GetOnTvTvShowsUseCase,
 ) : ViewModel() {
 
   private val _tvShowFilter: MutableStateFlow<TvShowFilter> =
@@ -36,10 +38,15 @@ class HomeViewModel @Inject constructor(
     _tvShowFilter.value = tvShowFilter
 
     when (tvShowFilter) {
-      TvShowFilter.TOP_RATED -> _tvShowList.value =
-        getTopRatedTvShowsUseCase.invoke().cachedIn(viewModelScope)
-      TvShowFilter.POPULAR -> _tvShowList.value =
-        getPopularTvShowsUseCase.invoke().cachedIn(viewModelScope)
+      TvShowFilter.TOP_RATED -> {
+        _tvShowList.value = getTopRatedTvShowsUseCase().cachedIn(viewModelScope)
+      }
+      TvShowFilter.POPULAR -> {
+        _tvShowList.value = getPopularTvShowsUseCase().cachedIn(viewModelScope)
+      }
+      TvShowFilter.ON_TV -> {
+        _tvShowList.value = getOnTvTvShowsUseCase().cachedIn(viewModelScope)
+      }
       else -> {}
     }
   }

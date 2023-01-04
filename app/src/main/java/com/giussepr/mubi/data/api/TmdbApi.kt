@@ -25,4 +25,11 @@ interface TmdbApi {
     @Query("page") page: Int,
     @Query("language") language: String = "en-US"
   ): Response<TvShowResponseDTO>
+
+  @GET("tv/on_the_air")
+  suspend fun getOnTvShows(
+    @Query("api_key") apiKey: String,
+    @Query("page") page: Int,
+    @Query("language") language: String = "en-US"
+  ): Response<TvShowResponseDTO>
 }
