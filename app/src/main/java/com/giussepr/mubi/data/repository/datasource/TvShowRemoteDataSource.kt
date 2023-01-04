@@ -10,4 +10,5 @@ import retrofit2.Response
 
 interface TvShowRemoteDataSource {
   suspend fun getTopRatedTvShows(page: Int): Response<TvShowResponseDTO>
+  suspend fun getPopularTvShows(page: Int): Response<TvShowResponseDTO>
 }

@@ -16,7 +16,7 @@ import com.google.gson.Gson
 import javax.inject.Inject
 
 
-class TvShowPagingSource @Inject constructor(
+class PopularTvShowPagingSource @Inject constructor(
   private val tvShowRemoteDataSource: TvShowRemoteDataSource
 ) : PagingSource<Int, TvShow>() {
 
@@ -30,7 +30,7 @@ class TvShowPagingSource @Inject constructor(
   override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TvShow> {
     return try {
       val page = params.key ?: 1
-      val response = tvShowRemoteDataSource.getTopRatedTvShows(page = page)
+      val response = tvShowRemoteDataSource.getPopularTvShows(page = page)
 
       if (response.isSuccessful) {
         response.body()?.let { tvShowResponseDTO ->

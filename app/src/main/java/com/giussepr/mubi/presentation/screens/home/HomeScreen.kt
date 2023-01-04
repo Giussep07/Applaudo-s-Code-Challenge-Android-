@@ -80,7 +80,7 @@ fun HomeScreen(navController: NavHostController, viewModel: HomeViewModel = hilt
         }
       }
 
-      val tvShowList = viewModel.getTopRatedMovies().collectAsLazyPagingItems()
+      val tvShowList = viewModel.tvShowList.collectAsState().value.collectAsLazyPagingItems()
       LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 150.dp),
         modifier = Modifier.fillMaxSize()

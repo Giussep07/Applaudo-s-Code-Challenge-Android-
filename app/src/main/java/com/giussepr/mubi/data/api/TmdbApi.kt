@@ -18,4 +18,11 @@ interface TmdbApi {
     @Query("page") page: Int,
     @Query("language") language: String = "en-US"
   ): Response<TvShowResponseDTO>
+
+  @GET("tv/popular")
+  suspend fun getPopularTvShows(
+    @Query("api_key") apiKey: String,
+    @Query("page") page: Int,
+    @Query("language") language: String = "en-US"
+  ): Response<TvShowResponseDTO>
 }

@@ -6,6 +6,7 @@
 package com.giussepr.mubi.core.di
 
 import com.giussepr.mubi.domain.repository.TvShowRepository
+import com.giussepr.mubi.domain.usecase.GetPopularTvShowsUseCase
 import com.giussepr.mubi.domain.usecase.GetTopRatedTvShowsUseCase
 import dagger.Module
 import dagger.Provides
@@ -19,4 +20,8 @@ object UseCaseModule {
   @Provides
   fun provideGetTopRatedTvShowsUseCase(tvShowRepository: TvShowRepository) =
     GetTopRatedTvShowsUseCase(tvShowRepository)
+
+  @Provides
+  fun provideGetPopularTvShowsUseCase(tvShowRepository: TvShowRepository) =
+    GetPopularTvShowsUseCase(tvShowRepository)
 }

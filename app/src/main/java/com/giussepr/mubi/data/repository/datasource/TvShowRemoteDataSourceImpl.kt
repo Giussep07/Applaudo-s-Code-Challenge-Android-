@@ -18,4 +18,7 @@ class TvShowRemoteDataSourceImpl(
 
   override suspend fun getTopRatedTvShows(page: Int): Response<TvShowResponseDTO> =
     tmdbApi.getTopRatedTvShows(apiKey = apiKey, page = page)
+
+  override suspend fun getPopularTvShows(page: Int): Response<TvShowResponseDTO> =
+    tmdbApi.getPopularTvShows(apiKey = apiKey, page = page)
 }
