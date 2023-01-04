@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.giussepr.mubi.presentation.screens.home.HomeScreen
+import com.giussepr.mubi.presentation.screens.search.SearchScreen
 import com.giussepr.mubi.presentation.screens.splash.SplashScreen
 
 @Composable
@@ -20,6 +21,9 @@ fun AppNavigation(navController: NavHostController) {
     }
     composable(AppScreens.Home.route) {
       HomeScreen(navController)
+    }
+    composable(AppScreens.Search.route) {
+      SearchScreen(navController)
     }
   }
 }

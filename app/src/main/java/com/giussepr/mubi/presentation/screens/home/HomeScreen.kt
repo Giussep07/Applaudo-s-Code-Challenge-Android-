@@ -31,6 +31,7 @@ import coil.compose.AsyncImage
 import com.giussepr.mubi.domain.error.ApiException
 import com.giussepr.mubi.domain.error.DomainException
 import com.giussepr.mubi.domain.model.TvShow
+import com.giussepr.mubi.presentation.navigation.AppScreens
 import com.giussepr.mubi.presentation.screens.home.TvShowFilter.*
 import com.giussepr.mubi.presentation.theme.*
 import com.giussepr.mubi.presentation.widgets.MubiRatingBar
@@ -59,7 +60,7 @@ fun HomeScreen(navController: NavHostController, viewModel: HomeViewModel = hilt
       .background(Background),
     topBar = {
       MubiTopAppBar(navController = navController,
-        onSearchClicked = { /*TODO*/ },
+        onSearchClicked = { navController.navigate(AppScreens.Search.route) },
         onProfileClicked = { /*TODO*/ })
     }
   ) { paddingValues ->
@@ -129,7 +130,11 @@ fun HomeScreen(navController: NavHostController, viewModel: HomeViewModel = hilt
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun TvShowFilterChip(filter: TvShowFilter, isSelected: Boolean, onTvShowFilterClicked: (TvShowFilter) -> Unit) {
+fun TvShowFilterChip(
+  filter: TvShowFilter,
+  isSelected: Boolean,
+  onTvShowFilterClicked: (TvShowFilter) -> Unit
+) {
   val backgroundColor by animateColorAsState(
     targetValue = if (isSelected) MaterialTheme.colors.primary else Gray,
     animationSpec = tween(
@@ -208,15 +213,17 @@ fun TvShowLoading() {
 }
 
 @Composable
-fun TvShowError(error: Throwable, pagingItems: LazyPagingItems<TvShow>, ) {
+fun TvShowError(error: Throwable, pagingItems: LazyPagingItems<TvShow>) {
   val errorMessage = when (error) {
     is ApiException -> error.message
     is DomainException -> error.message
     else -> "Something went wrong"
   }
-  Column(modifier = Modifier
-    .fillMaxSize()
-    .padding(vertical = 16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+  Column(
+    modifier = Modifier
+      .fillMaxSize()
+      .padding(vertical = 16.dp), horizontalAlignment = Alignment.CenterHorizontally
+  ) {
     Text(text = errorMessage, style = MaterialTheme.typography.h6, color = Red)
     Spacer(modifier = Modifier.height(16.dp))
     Button(onClick = { pagingItems.retry() }) {

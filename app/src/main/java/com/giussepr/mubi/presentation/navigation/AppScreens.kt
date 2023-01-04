@@ -8,4 +8,5 @@ package com.giussepr.mubi.presentation.navigation
 sealed class AppScreens(val route: String) {
   object SplashScreen : AppScreens("splash_screen")
   object Home : AppScreens("home")
+  object Search : AppScreens("search")
 }
