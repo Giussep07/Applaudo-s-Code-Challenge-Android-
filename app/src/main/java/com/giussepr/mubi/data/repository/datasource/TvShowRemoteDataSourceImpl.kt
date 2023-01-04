@@ -27,4 +27,7 @@ class TvShowRemoteDataSourceImpl(
 
   override suspend fun getAiringTodayTvShows(page: Int): Response<TvShowResponseDTO> =
     tmdbApi.getAiringTodayTvShows(apiKey = apiKey, page = page)
+
+  override suspend fun searchTvShowsByTerm(searchTerm: String, page: Int): Response<TvShowResponseDTO> =
+    tmdbApi.searchTvShowsByTerm(apiKey = apiKey, searchTerm = searchTerm, page = page)
 }

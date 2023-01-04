@@ -6,4 +6,5 @@
 package com.giussepr.mubi.domain.error
 
 open class DomainException(override val message: String = "") : Throwable(message)
+object NoTvShowsResultsException : DomainException()
 data class ApiException(val code: Int, override val message: String) : DomainException()

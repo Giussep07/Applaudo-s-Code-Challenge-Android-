@@ -13,4 +13,5 @@ interface TvShowRemoteDataSource {
   suspend fun getPopularTvShows(page: Int): Response<TvShowResponseDTO>
   suspend fun getOnTvShows(page: Int): Response<TvShowResponseDTO>
   suspend fun getAiringTodayTvShows(page: Int): Response<TvShowResponseDTO>
+  suspend fun searchTvShowsByTerm(searchTerm: String, page: Int): Response<TvShowResponseDTO>
 }

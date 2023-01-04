@@ -18,6 +18,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,14 +29,15 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
+import com.giussepr.mubi.R
 import com.giussepr.mubi.domain.error.ApiException
 import com.giussepr.mubi.domain.error.DomainException
+import com.giussepr.mubi.domain.error.NoTvShowsResultsException
 import com.giussepr.mubi.domain.model.TvShow
 import com.giussepr.mubi.presentation.navigation.AppScreens
 import com.giussepr.mubi.presentation.screens.home.TvShowFilter.*
 import com.giussepr.mubi.presentation.theme.*
-import com.giussepr.mubi.presentation.widgets.MubiRatingBar
-import com.giussepr.mubi.presentation.widgets.MubiTopAppBar
+import com.giussepr.mubi.presentation.widgets.*
 
 @Composable
 @Preview(showSystemUi = true, showBackground = true)
@@ -160,74 +162,5 @@ fun TvShowFilterChip(
     border = BorderStroke(1.dp, borderColor)
   ) {
     Text(text = filter.text, style = MaterialTheme.typography.subtitle2, color = textColor)
-  }
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun TvShowListItem(tvShow: TvShow, onTvShowItemClicked: () -> Unit) {
-  Card(
-    modifier = Modifier
-      .fillMaxWidth()
-      .padding(start = 8.dp, end = 8.dp, top = 16.dp),
-    shape = MaterialTheme.shapes.large,
-    onClick = { onTvShowItemClicked() }
-  ) {
-    Column(
-      modifier = Modifier
-        .fillMaxSize()
-    ) {
-      AsyncImage(
-        modifier = Modifier
-          .fillMaxWidth()
-          .height(160.dp),
-        contentScale = ContentScale.Crop,
-        model = tvShow.imageUrl,
-        contentDescription = tvShow.name,
-      )
-      // Tv Show Title
-      Text(
-        modifier = Modifier
-          .fillMaxWidth()
-          .padding(start = 12.dp, end = 12.dp, top = 16.dp),
-        text = tvShow.name,
-        style = MaterialTheme.typography.subtitle2,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis,
-        color = ColorText
-      )
-      // Tv Show Rating
-      MubiRatingBar(
-        voteAverage = tvShow.voteAverage,
-        modifier = Modifier.padding(start = 12.dp, bottom = 16.dp)
-      )
-    }
-  }
-}
-
-@Composable
-fun TvShowLoading() {
-  Box(contentAlignment = Alignment.Center, modifier = Modifier.padding(vertical = 16.dp)) {
-    CircularProgressIndicator()
-  }
-}
-
-@Composable
-fun TvShowError(error: Throwable, pagingItems: LazyPagingItems<TvShow>) {
-  val errorMessage = when (error) {
-    is ApiException -> error.message
-    is DomainException -> error.message
-    else -> "Something went wrong"
-  }
-  Column(
-    modifier = Modifier
-      .fillMaxSize()
-      .padding(vertical = 16.dp), horizontalAlignment = Alignment.CenterHorizontally
-  ) {
-    Text(text = errorMessage, style = MaterialTheme.typography.h6, color = Red)
-    Spacer(modifier = Modifier.height(16.dp))
-    Button(onClick = { pagingItems.retry() }) {
-      Text(text = "Retry")
-    }
   }
 }

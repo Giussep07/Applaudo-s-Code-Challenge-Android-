@@ -7,6 +7,9 @@ package com.giussepr.mubi.presentation.screens.search
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -23,10 +26,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.giussepr.mubi.R
 import com.giussepr.mubi.presentation.theme.*
+import com.giussepr.mubi.presentation.widgets.TvShowError
+import com.giussepr.mubi.presentation.widgets.TvShowListItem
+import com.giussepr.mubi.presentation.widgets.TvShowLoading
 
 @Composable
 @Preview
@@ -35,13 +44,62 @@ fun SearchScreenPreview() {
 }
 
 @Composable
-fun SearchScreen(navController: NavHostController) {
+fun SearchScreen(navController: NavHostController, viewModel: SearchViewModel = hiltViewModel()) {
   Scaffold(modifier = Modifier
     .fillMaxSize()
     .background(Background),
     topBar = {
-      SearchTopAppBar(navController = navController, onSearchButtonClicked = {})
-    }) { _ ->
+      SearchTopAppBar(
+        navController = navController,
+        onSearchButtonClicked = { searchTerm ->
+          if (searchTerm.isNotEmpty())
+            viewModel.searchTvShowsByTerm(searchTerm)
+        })
+    }) { paddingValues ->
+    viewModel.tvShowList.collectAsState().value?.collectAsLazyPagingItems()?.let { tvShowList ->
+      LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        modifier = Modifier.fillMaxSize().padding(paddingValues)
+      ) {
+        items(tvShowList.itemCount) { index ->
+          tvShowList[index]?.let {
+            TvShowListItem(tvShow = it, onTvShowItemClicked = { /*TODO*/ })
+          }
+        }
+
+        // First pagination load
+        when (val state = tvShowList.loadState.refresh) {
+          is LoadState.Loading -> {
+            item(span = { GridItemSpan(2) }) {
+              TvShowLoading()
+            }
+          }
+          is LoadState.Error -> {
+            item(span = { GridItemSpan(2) }) {
+              TvShowError(error = state.error, tvShowList)
+            }
+          }
+          else -> {}
+        }
+
+        tvShowList.loadState.refresh
+
+        // Pagination
+        when (val state = tvShowList.loadState.append) {
+          is LoadState.Loading -> {
+            item(span = { GridItemSpan(2) }) {
+              TvShowLoading()
+            }
+          }
+          is LoadState.Error -> {
+            item(span = { GridItemSpan(2) }) {
+              TvShowError(error = state.error, tvShowList)
+            }
+          }
+          else -> {}
+        }
+      }
+    }
 
   }
 }

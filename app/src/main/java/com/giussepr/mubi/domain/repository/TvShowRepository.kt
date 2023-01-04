@@ -14,4 +14,5 @@ interface TvShowRepository {
   fun getPopularTvShows(): Flow<PagingData<TvShow>>
   fun getOnTvShows(): Flow<PagingData<TvShow>>
   fun getAiringTodayTvShows(): Flow<PagingData<TvShow>>
+  fun searchTvShowsByTerm(searchTerm: String): Flow<PagingData<TvShow>>
 }
