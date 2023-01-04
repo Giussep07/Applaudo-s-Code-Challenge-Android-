@@ -1,0 +1,20 @@
+/*
+ * Created by Giussep Ricardo on 03/01/2023
+ * Copyright (c) 2023 . All rights reserved.
+ */
+
+package com.giussepr.mubi.data.repository.datasource
+
+import com.giussepr.mubi.data.api.TmdbApi
+import com.giussepr.mubi.data.model.TvShowResponseDTO
+import com.giussepr.mubi.presentation.util.Constants
+import retrofit2.Response
+import javax.inject.Named
+
+class TvShowRemoteDataSourceImpl(
+  private val tmdbApi: TmdbApi,
+  @Named(Constants.API_KEY) private val apiKey: String
+) : TvShowRemoteDataSource {
+
+  override suspend fun getTopRatedTvShows(): Response<TvShowResponseDTO> = tmdbApi.getTopRatedTvShows(apiKey)
+}

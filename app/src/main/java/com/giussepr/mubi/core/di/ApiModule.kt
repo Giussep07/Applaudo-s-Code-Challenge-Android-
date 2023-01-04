@@ -5,7 +5,7 @@
 
 package com.giussepr.mubi.core.di
 
-import com.giussepr.mubi.core.api.TmdbApi
+import com.giussepr.mubi.data.api.TmdbApi
 import com.giussepr.mubi.presentation.util.Constants
 import dagger.Module
 import dagger.Provides

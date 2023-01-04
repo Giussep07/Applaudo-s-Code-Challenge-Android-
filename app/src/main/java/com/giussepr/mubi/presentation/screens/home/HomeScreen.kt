@@ -12,15 +12,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.giussepr.mubi.domain.model.TvShow
 import com.giussepr.mubi.presentation.screens.home.TvShowFilter.*
 import com.giussepr.mubi.presentation.theme.*
 import com.giussepr.mubi.presentation.widgets.MubiRatingBar
@@ -33,7 +37,9 @@ fun HomeScreenPreview() {
 }
 
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreen(navController: NavHostController, viewModel: HomeViewModel = hiltViewModel()) {
+  viewModel.getTopRatedMovies()
+
   var selectedFilter by remember { mutableStateOf(TOP_RATED) }
   val filters = listOf(
     TOP_RATED,
@@ -69,12 +75,21 @@ fun HomeScreen(navController: NavHostController) {
         }
       }
 
-      // Tv Show List
-      LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 150.dp)) {
-        repeat(10) {
-          item {
-            TvShowListItem({ /*TODO*/ })
+      when (val homeState = viewModel.homeState.collectAsState().value) {
+        is HomeViewModel.HomeState.Loading -> {
+          Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
           }
+        }
+        is HomeViewModel.HomeState.Success -> {
+          LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 150.dp)) {
+            items(homeState.tvShowList) { tvShow ->
+              TvShowListItem(tvShow = tvShow, onTvShowItemClicked = { /*TODO*/ })
+            }
+          }
+        }
+        is HomeViewModel.HomeState.Error -> {
+          // TODO
         }
       }
     }
@@ -114,10 +129,11 @@ fun TvShowFilterChip(filter: TvShowFilter, isSelected: Boolean, onTvShowFilterCl
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun TvShowListItem(onTvShowItemClicked: () -> Unit) {
+fun TvShowListItem(tvShow: TvShow, onTvShowItemClicked: () -> Unit) {
   Card(
     modifier = Modifier
       .fillMaxWidth()
+      .heightIn(min = 260.dp)
       .padding(start = 8.dp, end = 8.dp, top = 16.dp),
     shape = MaterialTheme.shapes.large,
     onClick = { onTvShowItemClicked() }
@@ -131,20 +147,23 @@ fun TvShowListItem(onTvShowItemClicked: () -> Unit) {
           .fillMaxWidth()
           .height(136.dp),
         contentScale = ContentScale.Crop,
-        model = "https://d32qys9a6wm9no.cloudfront.net/images/movies/backdrop/90/7ca0518b563b0be26fbcd4d9adb08c52_706x397.jpg?t=1636102095",
-        contentDescription = "Tv Show Image",
+        model = tvShow.imageUrl,
+        contentDescription = tvShow.name,
       )
       // Tv Show Title
       Text(
         modifier = Modifier
           .fillMaxWidth()
           .padding(start = 12.dp, end = 12.dp, top = 16.dp),
-        text = "The Mandalorian",
+        text = tvShow.name,
         style = MaterialTheme.typography.subtitle2,
         color = ColorText
       )
       // Tv Show Rating
-      MubiRatingBar(voteAverage = 8.5, modifier = Modifier.padding(start = 12.dp, bottom = 16.dp))
+      MubiRatingBar(
+        voteAverage = tvShow.voteAverage,
+        modifier = Modifier.padding(start = 12.dp, bottom = 16.dp)
+      )
     }
   }
 }
