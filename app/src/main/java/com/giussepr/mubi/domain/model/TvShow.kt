@@ -23,7 +23,7 @@ data class TvShow(
   val voteAverage: Double,
   val voteCount: Int,
   val imageUrl: String = "$IMAGE_BASE_URL$backdropPath",
-  val detailImageUrl: String = "$IMAGE_BASE_URL$backdropPath",
+  val detailImageUrl: String = "$DETAIL_IMAGE_BASE_URL$backdropPath",
 ) {
 
   fun toUiTvShowDetail(): UiTvShowDetail {
@@ -39,5 +39,6 @@ data class TvShow(
 
   companion object {
     private const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w780"
+    private const val DETAIL_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w1280"
   }
 }

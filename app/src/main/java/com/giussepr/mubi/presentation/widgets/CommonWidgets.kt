@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.LazyPagingItems
-import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import com.giussepr.mubi.R
 import com.giussepr.mubi.domain.error.ApiException
 import com.giussepr.mubi.domain.error.DomainException
@@ -193,12 +193,11 @@ fun TvShowListItem(tvShow: TvShow, onTvShowItemClicked: () -> Unit) {
       modifier = Modifier
         .fillMaxSize()
     ) {
-      AsyncImage(
+      MubiImage(
         modifier = Modifier
           .fillMaxWidth()
           .height(160.dp),
-        contentScale = ContentScale.Crop,
-        model = tvShow.imageUrl,
+        imageUrl = tvShow.imageUrl,
         contentDescription = tvShow.name,
       )
       // Tv Show Title
@@ -249,4 +248,30 @@ fun TvShowError(error: Throwable, pagingItems: LazyPagingItems<TvShow>) {
       }
     }
   }
+}
+
+@Composable
+fun MubiImage(imageUrl: String, contentDescription: String, modifier: Modifier = Modifier) {
+  SubcomposeAsyncImage(
+    modifier = modifier,
+    contentScale = ContentScale.Crop,
+    loading = {
+      Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        CircularProgressIndicator(modifier = Modifier.size(48.dp))
+      }
+    },
+    error = {
+      Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Image(
+          modifier = Modifier.size(64.dp),
+          painter = painterResource(id = R.drawable.no_image_available),
+          contentDescription = stringResource(
+            id = R.string.no_image_available,
+          )
+        )
+      }
+    },
+    model = imageUrl,
+    contentDescription = contentDescription,
+  )
 }

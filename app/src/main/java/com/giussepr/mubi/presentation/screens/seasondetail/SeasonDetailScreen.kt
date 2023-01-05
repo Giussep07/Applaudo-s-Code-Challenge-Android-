@@ -13,7 +13,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,12 +20,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import coil.compose.AsyncImage
 import com.giussepr.mubi.domain.model.Episode
 import com.giussepr.mubi.presentation.theme.Background
 import com.giussepr.mubi.presentation.theme.ColorText
 import com.giussepr.mubi.presentation.theme.HintTextColor
 import com.giussepr.mubi.presentation.theme.Purple
+import com.giussepr.mubi.presentation.widgets.MubiImage
 import com.giussepr.mubi.presentation.widgets.MubiTopAppBar
 
 @Composable
@@ -121,12 +120,10 @@ fun EpisodeItem(episode: Episode) {
   ) {
     Row(modifier = Modifier.fillMaxWidth()) {
       // Season poster
-      AsyncImage(
+      MubiImage(
         modifier = Modifier
-          .weight(0.3f)
-          .background(HintTextColor),
-        contentScale = ContentScale.Crop,
-        model = episode.imageUrl,
+          .weight(0.3f),
+        imageUrl = episode.imageUrl,
         contentDescription = episode.name,
       )
       // Season details

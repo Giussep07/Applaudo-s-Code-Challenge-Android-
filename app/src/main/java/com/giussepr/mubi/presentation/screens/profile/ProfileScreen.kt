@@ -29,15 +29,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import com.giussepr.mubi.R
 import com.giussepr.mubi.domain.model.FavoriteTvShow
-import com.giussepr.mubi.domain.model.TvShow
 import com.giussepr.mubi.presentation.navigation.AppScreens
 import com.giussepr.mubi.presentation.theme.*
 import com.giussepr.mubi.presentation.widgets.MubiRatingBar
 import com.giussepr.mubi.presentation.widgets.MubiTopAppBar
-import com.giussepr.mubi.presentation.widgets.TvShowListItem
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -123,7 +121,9 @@ fun ProfileScreen(navController: NavHostController, viewModel: ProfileViewModel 
               }
             } else {
               LazyRow(
-                modifier = Modifier.fillMaxWidth().padding(start = 16.dp),
+                modifier = Modifier
+                  .fillMaxWidth()
+                  .padding(start = 16.dp),
                 contentPadding = PaddingValues(end = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
               ) {
@@ -173,13 +173,29 @@ fun FavoriteTvShowListItem(tvShow: FavoriteTvShow, onTvShowItemClicked: () -> Un
       modifier = Modifier
         .fillMaxSize()
     ) {
-      AsyncImage(
+      SubcomposeAsyncImage(
+        model = tvShow.imageUrl,
+        contentDescription = tvShow.name,
+        loading = {
+          Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator(modifier = Modifier.size(48.dp))
+          }
+        },
+        error = {
+          Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Image(
+              modifier = Modifier.size(64.dp),
+              painter = painterResource(id = R.drawable.no_image_available),
+              contentDescription = stringResource(
+                id = R.string.no_image_available,
+              )
+            )
+          }
+        },
         modifier = Modifier
           .fillMaxWidth()
           .height(160.dp),
         contentScale = ContentScale.Crop,
-        model = tvShow.imageUrl,
-        contentDescription = tvShow.name,
       )
       // Tv Show Title
       Text(

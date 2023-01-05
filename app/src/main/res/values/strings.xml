@@ -13,4 +13,5 @@
   <string name="giussep_ricardo_username">\@giussepr</string>
   <string name="favorite_tv_shows">My favorites</string>
   <string name="no_favorite_tv_shows">No Favorite tv shows</string>
+  <string name="no_image_available">No image available</string>
 </resources>

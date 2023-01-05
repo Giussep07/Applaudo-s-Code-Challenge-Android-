@@ -22,7 +22,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -31,12 +30,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import coil.compose.AsyncImage
 import com.giussepr.mubi.R
 import com.giussepr.mubi.domain.model.Season
 import com.giussepr.mubi.presentation.navigation.AppScreens
 import com.giussepr.mubi.presentation.screens.tvshowdetail.model.UiTvShowDetail
 import com.giussepr.mubi.presentation.theme.*
+import com.giussepr.mubi.presentation.widgets.MubiImage
 import com.giussepr.mubi.presentation.widgets.MubiRatingBar
 
 @Composable
@@ -168,12 +167,10 @@ fun TvShowDetailsHeader(
       .height(320.dp)
   ) {
     // Tv Show Images
-    AsyncImage(
+    MubiImage(
       modifier = Modifier
-        .fillMaxSize()
-        .background(HintTextColor),
-      contentScale = ContentScale.Crop,
-      model = uiTvShowDetail.imageUrl,
+        .fillMaxSize(),
+      imageUrl = uiTvShowDetail.imageUrl,
       contentDescription = uiTvShowDetail.name,
     )
     Box(
@@ -269,12 +266,10 @@ fun TvShowSeasonItem(season: Season, onSeasonClicked: (Season) -> Unit) {
   ) {
     Row(modifier = Modifier.fillMaxWidth()) {
       // Season poster
-      AsyncImage(
+      MubiImage(
         modifier = Modifier
-          .weight(0.3f)
-          .background(HintTextColor),
-        contentScale = ContentScale.Crop,
-        model = season.imageUrl,
+          .weight(0.3f),
+        imageUrl = season.imageUrl,
         contentDescription = season.name,
       )
       // Season details
