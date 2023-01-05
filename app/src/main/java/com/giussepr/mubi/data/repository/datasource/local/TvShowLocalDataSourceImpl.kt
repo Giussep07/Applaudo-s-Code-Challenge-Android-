@@ -10,8 +10,8 @@ import com.giussepr.mubi.data.database.dao.FavoriteTvShowDao
 import com.giussepr.mubi.data.database.dao.TopRatedTvShowDao
 import com.giussepr.mubi.data.database.dao.TopRatedTvShowRemoteKeyDao
 import com.giussepr.mubi.data.database.entity.FavoriteTvShowEntity
-import com.giussepr.mubi.data.database.entity.TopRatedTvShowEntity
-import com.giussepr.mubi.data.database.entity.TopRatedTvShowRemoteKey
+import com.giussepr.mubi.data.database.entity.topratedtvshow.TopRatedTvShowEntity
+import com.giussepr.mubi.data.database.entity.topratedtvshow.TopRatedTvShowRemoteKey
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

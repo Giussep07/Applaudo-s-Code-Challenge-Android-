@@ -3,11 +3,17 @@
  * Copyright (c) 2023 . All rights reserved.
  */
 
-package com.giussepr.mubi.data.database.entity
+/*
+ * Created by Giussep Ricardo on 05/01/2023
+ * Copyright (c) 2023 . All rights reserved.
+ */
+
+package com.giussepr.mubi.data.database.entity.topratedtvshow
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.giussepr.mubi.data.database.entity.TvShowEntity
 import com.giussepr.mubi.domain.model.TvShow
 
 @Entity(tableName = "top_rated_tv_show")

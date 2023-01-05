@@ -3,7 +3,7 @@
  * Copyright (c) 2023 . All rights reserved.
  */
 
-package com.giussepr.mubi.data.database.entity
+package com.giussepr.mubi.data.database.entity.topratedtvshow
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

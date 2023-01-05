@@ -9,7 +9,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.giussepr.mubi.data.database.entity.TopRatedTvShowRemoteKey
+import com.giussepr.mubi.data.database.entity.topratedtvshow.TopRatedTvShowRemoteKey
 
 @Dao
 interface TopRatedTvShowRemoteKeyDao {

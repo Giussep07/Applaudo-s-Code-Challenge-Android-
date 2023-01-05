@@ -10,7 +10,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.giussepr.mubi.data.database.entity.TopRatedTvShowEntity
+import com.giussepr.mubi.data.database.entity.topratedtvshow.TopRatedTvShowEntity
 
 @Dao
 interface TopRatedTvShowDao {

@@ -11,8 +11,8 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.giussepr.mubi.data.database.MubiDatabase
-import com.giussepr.mubi.data.database.entity.TopRatedTvShowEntity
-import com.giussepr.mubi.data.database.entity.TopRatedTvShowRemoteKey
+import com.giussepr.mubi.data.database.entity.topratedtvshow.TopRatedTvShowEntity
+import com.giussepr.mubi.data.database.entity.topratedtvshow.TopRatedTvShowRemoteKey
 import com.giussepr.mubi.data.repository.datasource.TvShowRemoteDataSource
 import com.giussepr.mubi.data.repository.datasource.local.TvShowLocalDataSource
 

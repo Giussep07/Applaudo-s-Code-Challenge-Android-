@@ -7,8 +7,8 @@ package com.giussepr.mubi.data.repository.datasource.local
 
 import androidx.paging.PagingSource
 import com.giussepr.mubi.data.database.entity.FavoriteTvShowEntity
-import com.giussepr.mubi.data.database.entity.TopRatedTvShowEntity
-import com.giussepr.mubi.data.database.entity.TopRatedTvShowRemoteKey
+import com.giussepr.mubi.data.database.entity.topratedtvshow.TopRatedTvShowEntity
+import com.giussepr.mubi.data.database.entity.topratedtvshow.TopRatedTvShowRemoteKey
 import kotlinx.coroutines.flow.Flow
 
 interface TvShowLocalDataSource {

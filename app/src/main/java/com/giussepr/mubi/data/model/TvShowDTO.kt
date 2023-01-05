@@ -5,7 +5,7 @@
 
 package com.giussepr.mubi.data.model
 
-import com.giussepr.mubi.data.database.entity.TopRatedTvShowEntity
+import com.giussepr.mubi.data.database.entity.topratedtvshow.TopRatedTvShowEntity
 import com.giussepr.mubi.domain.model.TvShow
 import com.google.gson.annotations.SerializedName
 
