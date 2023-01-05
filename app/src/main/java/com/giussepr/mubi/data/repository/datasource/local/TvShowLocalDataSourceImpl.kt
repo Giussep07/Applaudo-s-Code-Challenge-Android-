@@ -9,11 +9,15 @@ import androidx.paging.PagingSource
 import com.giussepr.mubi.data.database.dao.FavoriteTvShowDao
 import com.giussepr.mubi.data.database.dao.TopRatedTvShowDao
 import com.giussepr.mubi.data.database.dao.TopRatedTvShowRemoteKeyDao
+import com.giussepr.mubi.data.database.dao.airingtoday.AiringTodayTvShowDao
+import com.giussepr.mubi.data.database.dao.airingtoday.AiringTodayTvShowRemoteKeyDao
 import com.giussepr.mubi.data.database.dao.ontvshow.OnTvShowDao
 import com.giussepr.mubi.data.database.dao.ontvshow.OnTvShowRemoteKeyDao
 import com.giussepr.mubi.data.database.dao.populartvshow.PopularTvShowDao
 import com.giussepr.mubi.data.database.dao.populartvshow.PopularTvShowRemoteKeyDao
 import com.giussepr.mubi.data.database.entity.FavoriteTvShowEntity
+import com.giussepr.mubi.data.database.entity.airingtoday.AiringTodayTvShowEntity
+import com.giussepr.mubi.data.database.entity.airingtoday.AiringTodayTvShowRemoteKey
 import com.giussepr.mubi.data.database.entity.ontvshow.OnTvShowEntity
 import com.giussepr.mubi.data.database.entity.ontvshow.OnTvShowRemoteKey
 import com.giussepr.mubi.data.database.entity.populartvshow.PopularTvShowEntity
@@ -30,7 +34,9 @@ class TvShowLocalDataSourceImpl @Inject constructor(
   private val popularTvShowDao: PopularTvShowDao,
   private val popularTvShowRemoteKeyDao: PopularTvShowRemoteKeyDao,
   private val onTvShowDao: OnTvShowDao,
-  private val onTvShowRemoteKeyDao: OnTvShowRemoteKeyDao
+  private val onTvShowRemoteKeyDao: OnTvShowRemoteKeyDao,
+  private val airingTodayTvShowDao: AiringTodayTvShowDao,
+  private val airingTodayTvShowRemoteKeyDao: AiringTodayTvShowRemoteKeyDao
 ) : TvShowLocalDataSource {
 
   override fun getAllFavoriteTvShows(): Flow<List<FavoriteTvShowEntity>> {
@@ -126,4 +132,31 @@ class TvShowLocalDataSourceImpl @Inject constructor(
   }
 
   // endregion On Tv Tv Show
+
+  // region AiringToday Tv Show
+  override suspend fun getAiringTodayTvShowRemoteKeyByTvShowId(tvShowId: Int): AiringTodayTvShowRemoteKey? {
+    return airingTodayTvShowRemoteKeyDao.getRemoteKeyByTvShowId(tvShowId)
+  }
+
+  override suspend fun addAiringTodayTvShowAllRemoteKeys(remoteKeys: List<AiringTodayTvShowRemoteKey>) {
+    airingTodayTvShowRemoteKeyDao.addAllRemoteKeys(remoteKeys)
+  }
+
+  override suspend fun deleteAllAiringTodayTvShowsRemoteKeys() {
+    airingTodayTvShowRemoteKeyDao.deleteAllRemoteKeys()
+  }
+
+  override fun getAiringTodayTvShows(): PagingSource<Int, AiringTodayTvShowEntity> {
+    return airingTodayTvShowDao.getAll()
+  }
+
+  override suspend fun addAiringTodayTvShows(tvShowList: List<AiringTodayTvShowEntity>) {
+    airingTodayTvShowDao.insertAll(tvShowList)
+  }
+
+  override suspend fun deleteAllAiringTodayTvShows() {
+    airingTodayTvShowDao.deleteAll()
+  }
+
+  // endregion AiringToday Tv Show
 }

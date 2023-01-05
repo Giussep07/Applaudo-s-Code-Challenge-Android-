@@ -5,6 +5,7 @@
 
 package com.giussepr.mubi.data.model
 
+import com.giussepr.mubi.data.database.entity.airingtoday.AiringTodayTvShowEntity
 import com.giussepr.mubi.data.database.entity.ontvshow.OnTvShowEntity
 import com.giussepr.mubi.data.database.entity.populartvshow.PopularTvShowEntity
 import com.giussepr.mubi.data.database.entity.topratedtvshow.TopRatedTvShowEntity
@@ -92,6 +93,24 @@ data class TvShowDTO(
 
   fun toDataOnTvShowEntity(): OnTvShowEntity {
     return OnTvShowEntity(
+      tvShowId = id,
+      backdropPath = backdropPath ?: posterPath ?: "",
+      firstAirDate = firstAirDate ?: "",
+      name = name,
+      originalLanguage = originalLanguage,
+      originalName = originalName,
+      overview = overview,
+      popularity = popularity,
+      posterPath = posterPath ?: "",
+      voteAverage = voteAverage,
+      voteCount = voteCount,
+      imageUrl = "$IMAGE_BASE_URL$backdropPath",
+      detailImageUrl = "$DETAIL_IMAGE_BASE_URL$backdropPath",
+    )
+  }
+
+  fun toDataAiringTodayTvShowEntity(): AiringTodayTvShowEntity {
+    return AiringTodayTvShowEntity(
       tvShowId = id,
       backdropPath = backdropPath ?: posterPath ?: "",
       firstAirDate = firstAirDate ?: "",

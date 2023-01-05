@@ -9,6 +9,8 @@ import com.giussepr.mubi.data.api.TmdbApi
 import com.giussepr.mubi.data.database.dao.FavoriteTvShowDao
 import com.giussepr.mubi.data.database.dao.TopRatedTvShowDao
 import com.giussepr.mubi.data.database.dao.TopRatedTvShowRemoteKeyDao
+import com.giussepr.mubi.data.database.dao.airingtoday.AiringTodayTvShowDao
+import com.giussepr.mubi.data.database.dao.airingtoday.AiringTodayTvShowRemoteKeyDao
 import com.giussepr.mubi.data.database.dao.ontvshow.OnTvShowDao
 import com.giussepr.mubi.data.database.dao.ontvshow.OnTvShowRemoteKeyDao
 import com.giussepr.mubi.data.database.dao.populartvshow.PopularTvShowDao
@@ -44,7 +46,9 @@ object DataSourceModule {
     popularTvShowDao: PopularTvShowDao,
     popularTvShowRemoteKeyDao: PopularTvShowRemoteKeyDao,
     onTvShowDao: OnTvShowDao,
-    onTvShowRemoteKeyDao: OnTvShowRemoteKeyDao
+    onTvShowRemoteKeyDao: OnTvShowRemoteKeyDao,
+    airingTodayTvShowDao: AiringTodayTvShowDao,
+    airingTodayTvShowRemoteKeyDao: AiringTodayTvShowRemoteKeyDao
   ): TvShowLocalDataSource {
     return TvShowLocalDataSourceImpl(
       favoriteTvShowDao,
@@ -53,7 +57,9 @@ object DataSourceModule {
       popularTvShowDao,
       popularTvShowRemoteKeyDao,
       onTvShowDao,
-      onTvShowRemoteKeyDao
+      onTvShowRemoteKeyDao,
+      airingTodayTvShowDao,
+      airingTodayTvShowRemoteKeyDao
     )
   }
 }

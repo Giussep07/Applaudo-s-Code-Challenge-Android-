@@ -7,6 +7,8 @@ package com.giussepr.mubi.data.repository.datasource.local
 
 import androidx.paging.PagingSource
 import com.giussepr.mubi.data.database.entity.FavoriteTvShowEntity
+import com.giussepr.mubi.data.database.entity.airingtoday.AiringTodayTvShowEntity
+import com.giussepr.mubi.data.database.entity.airingtoday.AiringTodayTvShowRemoteKey
 import com.giussepr.mubi.data.database.entity.ontvshow.OnTvShowEntity
 import com.giussepr.mubi.data.database.entity.ontvshow.OnTvShowRemoteKey
 import com.giussepr.mubi.data.database.entity.populartvshow.PopularTvShowEntity
@@ -46,6 +48,16 @@ interface TvShowLocalDataSource {
   fun getOnTvShows(): PagingSource<Int, OnTvShowEntity>
   suspend fun addOnTvShows(tvShowList: List<OnTvShowEntity>)
   suspend fun deleteAllOnTvShows()
+
   // endregion On TV Tv Show
+  // region AiringToday Tv Show
+  suspend fun getAiringTodayTvShowRemoteKeyByTvShowId(tvShowId: Int): AiringTodayTvShowRemoteKey?
+  suspend fun addAiringTodayTvShowAllRemoteKeys(remoteKeys: List<AiringTodayTvShowRemoteKey>)
+  suspend fun deleteAllAiringTodayTvShowsRemoteKeys()
+  fun getAiringTodayTvShows(): PagingSource<Int, AiringTodayTvShowEntity>
+  suspend fun addAiringTodayTvShows(tvShowList: List<AiringTodayTvShowEntity>)
+  suspend fun deleteAllAiringTodayTvShows()
+
+  // endregion Airing Today Tv Show
 
 }
