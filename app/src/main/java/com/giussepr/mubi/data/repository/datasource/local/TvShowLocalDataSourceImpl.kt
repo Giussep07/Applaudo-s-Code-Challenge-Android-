@@ -9,7 +9,11 @@ import androidx.paging.PagingSource
 import com.giussepr.mubi.data.database.dao.FavoriteTvShowDao
 import com.giussepr.mubi.data.database.dao.TopRatedTvShowDao
 import com.giussepr.mubi.data.database.dao.TopRatedTvShowRemoteKeyDao
+import com.giussepr.mubi.data.database.dao.populartvshow.PopularTvShowDao
+import com.giussepr.mubi.data.database.dao.populartvshow.PopularTvShowRemoteKeyDao
 import com.giussepr.mubi.data.database.entity.FavoriteTvShowEntity
+import com.giussepr.mubi.data.database.entity.populartvshow.PopularTvShowEntity
+import com.giussepr.mubi.data.database.entity.populartvshow.PopularTvShowRemoteKey
 import com.giussepr.mubi.data.database.entity.topratedtvshow.TopRatedTvShowEntity
 import com.giussepr.mubi.data.database.entity.topratedtvshow.TopRatedTvShowRemoteKey
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +22,9 @@ import javax.inject.Inject
 class TvShowLocalDataSourceImpl @Inject constructor(
   private val favoriteTvShowDao: FavoriteTvShowDao,
   private val topRatedTvShowDao: TopRatedTvShowDao,
-  private val topRatedTVShowRemoteKeyDao: TopRatedTvShowRemoteKeyDao
+  private val topRatedTVShowRemoteKeyDao: TopRatedTvShowRemoteKeyDao,
+  private val popularTvShowDao: PopularTvShowDao,
+  private val popularTvShowRemoteKeyDao: PopularTvShowRemoteKeyDao,
 ) : TvShowLocalDataSource {
 
   override fun getAllFavoriteTvShows(): Flow<List<FavoriteTvShowEntity>> {
@@ -60,4 +66,31 @@ class TvShowLocalDataSourceImpl @Inject constructor(
   override fun getTopRatedTvShows(): PagingSource<Int, TopRatedTvShowEntity> {
     return topRatedTvShowDao.getAll()
   }
+
+  // region Popular Tv Show
+  override suspend fun getPopularTvShowRemoteKeyByTvShowId(tvShowId: Int): PopularTvShowRemoteKey? {
+    return popularTvShowRemoteKeyDao.getRemoteKeyByTvShowId(tvShowId)
+  }
+
+  override suspend fun addPopularTvShowAllRemoteKeys(remoteKeys: List<PopularTvShowRemoteKey>) {
+    popularTvShowRemoteKeyDao.addAllRemoteKeys(remoteKeys)
+  }
+
+  override suspend fun deleteAllPopularTvShowsRemoteKeys() {
+    popularTvShowRemoteKeyDao.deleteAllRemoteKeys()
+  }
+
+  override fun getPopularTvShows(): PagingSource<Int, PopularTvShowEntity> {
+    return popularTvShowDao.getAll()
+  }
+
+  override suspend fun addPopularTvShows(tvShowList: List<PopularTvShowEntity>) {
+    popularTvShowDao.insertAll(tvShowList)
+  }
+
+  override suspend fun deleteAllPopularTvShows() {
+    popularTvShowDao.deleteAll()
+  }
+
+  // endregion Popular Tv Show
 }
