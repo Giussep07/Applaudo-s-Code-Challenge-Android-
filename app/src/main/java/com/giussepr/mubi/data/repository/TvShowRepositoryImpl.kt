@@ -61,10 +61,20 @@ class TvShowRepositoryImpl @Inject constructor(
     }
   }
 
+  @OptIn(ExperimentalPagingApi::class)
   override fun getOnTvShows() = Pager(
     config = PagingConfig(pageSize = 20),
-    pagingSourceFactory = { OnTvShowsPagingSource(tvShowRemoteDataSource) }
-  ).flow
+    remoteMediator = OnTvShowRemoteMediator(
+      tvShowRemoteDataSource,
+      tvShowLocalDataSource,
+      mubiDatabase
+    ),
+    pagingSourceFactory = { tvShowLocalDataSource.getOnTvShows() }
+  ).flow.map { pagingData ->
+    pagingData.map {
+      it.toDomainTvShow()
+    }
+  }
 
   override fun getAiringTodayTvShows() = Pager(
     config = PagingConfig(pageSize = 20),

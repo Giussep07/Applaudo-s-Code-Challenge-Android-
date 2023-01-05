@@ -7,6 +7,8 @@ package com.giussepr.mubi.data.repository.datasource.local
 
 import androidx.paging.PagingSource
 import com.giussepr.mubi.data.database.entity.FavoriteTvShowEntity
+import com.giussepr.mubi.data.database.entity.ontvshow.OnTvShowEntity
+import com.giussepr.mubi.data.database.entity.ontvshow.OnTvShowRemoteKey
 import com.giussepr.mubi.data.database.entity.populartvshow.PopularTvShowEntity
 import com.giussepr.mubi.data.database.entity.populartvshow.PopularTvShowRemoteKey
 import com.giussepr.mubi.data.database.entity.topratedtvshow.TopRatedTvShowEntity
@@ -18,6 +20,7 @@ interface TvShowLocalDataSource {
   suspend fun saveFavoriteTvShow(favoriteTvShow: FavoriteTvShowEntity)
   suspend fun getLocalFavoriteShowById(tvShowId: Int): FavoriteTvShowEntity?
   suspend fun removeFavoriteTvShow(tvShowId: Int)
+
   // region Top Rated Tv Show
   suspend fun getRemoteKeyByTvShowId(tvShowId: Int): TopRatedTvShowRemoteKey?
   suspend fun deleteAllTopRatedTvShows()
@@ -25,6 +28,7 @@ interface TvShowLocalDataSource {
   suspend fun addAllRemoteKeys(remoteKeys: List<TopRatedTvShowRemoteKey>)
   suspend fun addTopRatedTvShows(tvShowList: List<TopRatedTvShowEntity>)
   fun getTopRatedTvShows(): PagingSource<Int, TopRatedTvShowEntity>
+
   // endregion Top Rated Tv Show
   // region Popular Tv Show
   suspend fun getPopularTvShowRemoteKeyByTvShowId(tvShowId: Int): PopularTvShowRemoteKey?
@@ -33,6 +37,15 @@ interface TvShowLocalDataSource {
   fun getPopularTvShows(): PagingSource<Int, PopularTvShowEntity>
   suspend fun addPopularTvShows(tvShowList: List<PopularTvShowEntity>)
   suspend fun deleteAllPopularTvShows()
+
   // endregion Popular Tv Show
+  // region On Tv Tv Show
+  suspend fun getOnTvShowRemoteKeyByTvShowId(tvShowId: Int): OnTvShowRemoteKey?
+  suspend fun addOnTvShowAllRemoteKeys(remoteKeys: List<OnTvShowRemoteKey>)
+  suspend fun deleteAllOnTvShowsRemoteKeys()
+  fun getOnTvShows(): PagingSource<Int, OnTvShowEntity>
+  suspend fun addOnTvShows(tvShowList: List<OnTvShowEntity>)
+  suspend fun deleteAllOnTvShows()
+  // endregion On TV Tv Show
 
 }
