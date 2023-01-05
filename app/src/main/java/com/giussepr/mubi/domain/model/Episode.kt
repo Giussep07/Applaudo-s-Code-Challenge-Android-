@@ -21,6 +21,6 @@ data class Episode(
   val imageUrl: String = "$IMAGE_BASE_URL${stillPath}",
 ) {
   companion object {
-    private const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w342"
+    private const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w780"
   }
 }

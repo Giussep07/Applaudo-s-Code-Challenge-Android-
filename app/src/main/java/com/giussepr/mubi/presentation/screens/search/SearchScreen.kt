@@ -60,7 +60,7 @@ fun SearchScreen(navController: NavHostController, viewModel: SearchViewModel = 
     }) { paddingValues ->
     viewModel.tvShowList.collectAsState().value?.collectAsLazyPagingItems()?.let { tvShowList ->
 
-      if (tvShowList.itemCount == 0) {
+      if (tvShowList.loadState.append.endOfPaginationReached && tvShowList.itemCount == 0) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
           Text(
             text = stringResource(id = R.string.no_tv_shows_results),
