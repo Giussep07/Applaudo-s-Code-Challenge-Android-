@@ -52,4 +52,11 @@ object DatabaseModule {
 
   @Provides
   fun provideOnTvShowRemoteKeyDao(mubiDatabase: MubiDatabase) = mubiDatabase.onTvShowRemoteKeyDao()
+
+  @Provides
+  fun provideAiringTodayTvShowDao(mubiDatabase: MubiDatabase) = mubiDatabase.airingTodayTvShowDao()
+
+  @Provides
+  fun provideAiringTodayTvShowRemoteKeyDao(mubiDatabase: MubiDatabase) =
+    mubiDatabase.airingTodayTvShowRemoteKeyDao()
 }
