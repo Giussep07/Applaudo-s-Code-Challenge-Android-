@@ -6,7 +6,7 @@
 package com.giussepr.mubi.data.database.entity
 
 interface TvShowEntity {
-  val id: Int
+  val tvShowId: Int
   val backdropPath: String
   val firstAirDate: String
   val name: String

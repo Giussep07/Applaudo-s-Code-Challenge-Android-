@@ -11,8 +11,10 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "top_rated_tv_show_remote_key")
 data class TopRatedTvShowRemoteKey(
-  @PrimaryKey(autoGenerate = false)
+  @PrimaryKey(autoGenerate = true)
+  val id: Int = 0,
   @ColumnInfo(name = "tv_show_id")
   val tvShowId: Int,
-  val nextKey: Int?
+  val nextKey: Int?,
+  val prevKey: Int?,
 )

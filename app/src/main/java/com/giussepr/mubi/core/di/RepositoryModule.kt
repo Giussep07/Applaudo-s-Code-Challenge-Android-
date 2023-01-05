@@ -5,6 +5,7 @@
 
 package com.giussepr.mubi.core.di
 
+import com.giussepr.mubi.data.database.MubiDatabase
 import com.giussepr.mubi.data.repository.TvShowRepositoryImpl
 import com.giussepr.mubi.data.repository.datasource.TvShowRemoteDataSource
 import com.giussepr.mubi.data.repository.datasource.local.TvShowLocalDataSource
@@ -21,8 +22,9 @@ object RepositoryModule {
   @Provides
   fun provideTvShowRepository(
     tvShowRemoteDataSource: TvShowRemoteDataSource,
-    tvShowLocalDataSource: TvShowLocalDataSource
+    tvShowLocalDataSource: TvShowLocalDataSource,
+    mubiDatabase: MubiDatabase
   ): TvShowRepository {
-    return TvShowRepositoryImpl(tvShowRemoteDataSource, tvShowLocalDataSource)
+    return TvShowRepositoryImpl(tvShowRemoteDataSource, tvShowLocalDataSource, mubiDatabase)
   }
 }

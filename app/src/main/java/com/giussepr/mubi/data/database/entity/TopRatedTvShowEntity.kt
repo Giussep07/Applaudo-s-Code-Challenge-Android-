@@ -8,11 +8,13 @@ package com.giussepr.mubi.data.database.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.giussepr.mubi.domain.model.TvShow
 
 @Entity(tableName = "top_rated_tv_show")
 data class TopRatedTvShowEntity(
-  @PrimaryKey(autoGenerate = false)
-  override val id: Int,
+  @PrimaryKey(autoGenerate = true)
+  val id: Int = 0,
+  override val tvShowId: Int,
   @ColumnInfo(name = "backdrop_path")
   override val backdropPath: String,
   @ColumnInfo(name = "first_air_date")
@@ -34,4 +36,25 @@ data class TopRatedTvShowEntity(
   override val imageUrl: String,
   @ColumnInfo(name = "detail_image_url")
   override val detailImageUrl: String
-) : TvShowEntity
+) : TvShowEntity {
+
+  fun toDomainTvShow(): TvShow {
+    return TvShow(
+      id = tvShowId,
+      backdropPath = backdropPath,
+      firstAirDate = firstAirDate,
+      name = name,
+      originalLanguage = originalLanguage,
+      originalName = originalName,
+      overview = overview,
+      popularity = popularity,
+      posterPath = posterPath,
+      voteAverage = voteAverage,
+      voteCount = voteCount,
+      imageUrl = imageUrl,
+      detailImageUrl = detailImageUrl,
+      genreIds = emptyList(),
+      originCountry = emptyList()
+    )
+  }
+}

@@ -7,6 +7,8 @@ package com.giussepr.mubi.core.di
 
 import com.giussepr.mubi.data.api.TmdbApi
 import com.giussepr.mubi.data.database.dao.FavoriteTvShowDao
+import com.giussepr.mubi.data.database.dao.TopRatedTvShowDao
+import com.giussepr.mubi.data.database.dao.TopRatedTvShowRemoteKeyDao
 import com.giussepr.mubi.data.repository.datasource.TvShowRemoteDataSource
 import com.giussepr.mubi.data.repository.datasource.TvShowRemoteDataSourceImpl
 import com.giussepr.mubi.data.repository.datasource.local.TvShowLocalDataSource
@@ -31,7 +33,15 @@ object DataSourceModule {
   }
 
   @Provides
-  fun provideTvShowLocalDataSource(favoriteTvShowDao: FavoriteTvShowDao): TvShowLocalDataSource {
-    return TvShowLocalDataSourceImpl(favoriteTvShowDao)
+  fun provideTvShowLocalDataSource(
+    favoriteTvShowDao: FavoriteTvShowDao,
+    topRatedTvShowDao: TopRatedTvShowDao,
+    topRatedTvShowRemoteKeyDao: TopRatedTvShowRemoteKeyDao
+  ): TvShowLocalDataSource {
+    return TvShowLocalDataSourceImpl(
+      favoriteTvShowDao,
+      topRatedTvShowDao,
+      topRatedTvShowRemoteKeyDao
+    )
   }
 }

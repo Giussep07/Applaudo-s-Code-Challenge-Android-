@@ -5,8 +5,11 @@
 
 package com.giussepr.mubi.data.repository
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.map
+import com.giussepr.mubi.data.database.MubiDatabase
 import com.giussepr.mubi.data.model.ResponseErrorBody
 import com.giussepr.mubi.data.paging.*
 import com.giussepr.mubi.data.repository.datasource.TvShowRemoteDataSource
@@ -24,14 +27,24 @@ import javax.inject.Inject
 
 class TvShowRepositoryImpl @Inject constructor(
   private val tvShowRemoteDataSource: TvShowRemoteDataSource,
-  private val tvShowLocalDataSource: TvShowLocalDataSource
-) :
-  TvShowRepository {
+  private val tvShowLocalDataSource: TvShowLocalDataSource,
+  private val mubiDatabase: MubiDatabase
+) : TvShowRepository {
 
+  @OptIn(ExperimentalPagingApi::class)
   override fun getTopRatedTvShows() = Pager(
     config = PagingConfig(pageSize = 20),
-    pagingSourceFactory = { TopRatedTvShowPagingSource(tvShowRemoteDataSource) }
-  ).flow
+    remoteMediator = TopRatedTvShowRemoteMediator(
+      tvShowRemoteDataSource,
+      tvShowLocalDataSource,
+      mubiDatabase
+    ),
+    pagingSourceFactory = { tvShowLocalDataSource.getTopRatedTvShows() }
+  ).flow.map { pagingData ->
+    pagingData.map {
+      it.toDomainTvShow()
+    }
+  }
 
   override fun getPopularTvShows() = Pager(
     config = PagingConfig(pageSize = 20),
@@ -124,14 +137,15 @@ class TvShowRepositoryImpl @Inject constructor(
     }
   }
 
-  override fun saveLocalFavoriteTvShow(favoriteTvShow: FavoriteTvShow): Flow<Result<Boolean>> = flow {
-    try {
-      tvShowLocalDataSource.saveFavoriteTvShow(favoriteTvShow.toDataFavoriteTvShow())
-      emit(Result.Success(true))
-    } catch (e: Exception) {
-      emit(Result.Error(DomainException(e.message ?: "Something went wrong")))
+  override fun saveLocalFavoriteTvShow(favoriteTvShow: FavoriteTvShow): Flow<Result<Boolean>> =
+    flow {
+      try {
+        tvShowLocalDataSource.saveFavoriteTvShow(favoriteTvShow.toDataFavoriteTvShow())
+        emit(Result.Success(true))
+      } catch (e: Exception) {
+        emit(Result.Error(DomainException(e.message ?: "Something went wrong")))
+      }
     }
-  }
 
   override fun removeLocalFavoriteTvShow(tvShowId: Int): Flow<Result<Boolean>> = flow {
     try {

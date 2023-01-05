@@ -15,7 +15,7 @@ import com.giussepr.mubi.data.database.entity.TopRatedTvShowRemoteKey
 interface TopRatedTvShowRemoteKeyDao {
 
   @Query("SELECT * FROM top_rated_tv_show_remote_key WHERE tv_show_id = :tvShowId")
-  suspend fun getRemoteKeyByTvShowId(tvShowId: Int): TopRatedTvShowRemoteKey
+  suspend fun getRemoteKeyByTvShowId(tvShowId: Int): TopRatedTvShowRemoteKey?
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun addAllRemoteKeys(remoteKeys: List<TopRatedTvShowRemoteKey>)

@@ -5,6 +5,7 @@
 
 package com.giussepr.mubi.data.model
 
+import com.giussepr.mubi.data.database.entity.TopRatedTvShowEntity
 import com.giussepr.mubi.domain.model.TvShow
 import com.google.gson.annotations.SerializedName
 
@@ -49,5 +50,28 @@ data class TvShowDTO(
       voteAverage = voteAverage,
       voteCount = voteCount
     )
+  }
+
+  fun toDataTvShowEntity(): TopRatedTvShowEntity {
+    return TopRatedTvShowEntity(
+      tvShowId = id,
+      backdropPath = backdropPath ?: posterPath ?: "",
+      firstAirDate = firstAirDate ?: "",
+      name = name,
+      originalLanguage = originalLanguage,
+      originalName = originalName,
+      overview = overview,
+      popularity = popularity,
+      posterPath = posterPath ?: "",
+      voteAverage = voteAverage,
+      voteCount = voteCount,
+      imageUrl = "$IMAGE_BASE_URL$backdropPath",
+      detailImageUrl = "$DETAIL_IMAGE_BASE_URL$backdropPath",
+    )
+  }
+
+  companion object {
+    private const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w780"
+    private const val DETAIL_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w1280"
   }
 }
