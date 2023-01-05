@@ -5,12 +5,15 @@
 
 package com.giussepr.mubi.core.di
 
+import android.content.Context
+import com.giussepr.mubi.core.interceptor.ConnectionInterceptor
 import com.giussepr.mubi.data.api.TmdbApi
 import com.giussepr.mubi.presentation.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -31,12 +34,20 @@ object ApiModule {
   fun provideApiKey(): String = "cc2038ba0eaa048db605315fc938c4cd"
 
   @Provides
-  fun provideRetrofit(@Named(Constants.BASE_URL) baseUrl: String): TmdbApi {
+  fun provideConnectionInterceptor(@ApplicationContext context: Context) =
+    ConnectionInterceptor(context)
+
+  @Provides
+  fun provideRetrofit(
+    @Named(Constants.BASE_URL) baseUrl: String,
+    connectionInterceptor: ConnectionInterceptor
+  ): TmdbApi {
     val logging = HttpLoggingInterceptor()
     logging.level = HttpLoggingInterceptor.Level.BODY
 
     val client: OkHttpClient = OkHttpClient.Builder()
       .addInterceptor(logging)
+      .addInterceptor(connectionInterceptor)
       .build()
 
     val retrofit = Retrofit.Builder()

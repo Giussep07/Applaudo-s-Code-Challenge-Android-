@@ -5,6 +5,9 @@
 
 package com.giussepr.mubi.domain.error
 
+import java.io.IOException
+
 open class DomainException(override val message: String = "") : Throwable(message)
 object NoTvShowsResultsException : DomainException()
+class NoInternetConnection : IOException("No internet connection")
 data class ApiException(val code: Int, override val message: String) : DomainException()
