@@ -32,10 +32,12 @@ import androidx.navigation.compose.rememberNavController
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.giussepr.mubi.R
+import com.giussepr.mubi.presentation.navigation.AppScreens
 import com.giussepr.mubi.presentation.theme.*
 import com.giussepr.mubi.presentation.widgets.TvShowError
 import com.giussepr.mubi.presentation.widgets.TvShowListItem
 import com.giussepr.mubi.presentation.widgets.TvShowLoading
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 @Preview
@@ -75,7 +77,7 @@ fun SearchScreen(navController: NavHostController, viewModel: SearchViewModel = 
         ) {
           items(tvShowList.itemCount) { index ->
             tvShowList[index]?.let {
-              TvShowListItem(tvShow = it, onTvShowItemClicked = { /*TODO*/ })
+              TvShowListItem(tvShow = it, onTvShowItemClicked = { viewModel.onTvShowItemClicked(it) })
             }
           }
 
@@ -109,6 +111,15 @@ fun SearchScreen(navController: NavHostController, viewModel: SearchViewModel = 
               }
             }
             else -> {}
+          }
+        }
+
+        LaunchedEffect(key1 = Unit) {
+          viewModel.navigateToTvShowDetails.collectLatest { value ->
+            if (value.isNotEmpty()) {
+              viewModel.navigateToTvShowDetailsHandled()
+              navController.navigate(AppScreens.TvShowDetail.withArg(value))
+            }
           }
         }
       }
