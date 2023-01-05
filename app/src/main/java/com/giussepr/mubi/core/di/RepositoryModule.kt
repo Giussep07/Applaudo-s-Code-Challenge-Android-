@@ -7,6 +7,7 @@ package com.giussepr.mubi.core.di
 
 import com.giussepr.mubi.data.repository.TvShowRepositoryImpl
 import com.giussepr.mubi.data.repository.datasource.TvShowRemoteDataSource
+import com.giussepr.mubi.data.repository.datasource.local.TvShowLocalDataSource
 import com.giussepr.mubi.domain.repository.TvShowRepository
 import dagger.Module
 import dagger.Provides
@@ -18,7 +19,10 @@ import dagger.hilt.android.components.ViewModelComponent
 object RepositoryModule {
 
   @Provides
-  fun provideTvShowRepository(tvShowRemoteDataSource: TvShowRemoteDataSource): TvShowRepository {
-    return TvShowRepositoryImpl(tvShowRemoteDataSource)
+  fun provideTvShowRepository(
+    tvShowRemoteDataSource: TvShowRemoteDataSource,
+    tvShowLocalDataSource: TvShowLocalDataSource
+  ): TvShowRepository {
+    return TvShowRepositoryImpl(tvShowRemoteDataSource, tvShowLocalDataSource)
   }
 }

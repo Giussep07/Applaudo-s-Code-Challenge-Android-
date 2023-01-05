@@ -10,18 +10,21 @@ import androidx.paging.PagingConfig
 import com.giussepr.mubi.data.model.ResponseErrorBody
 import com.giussepr.mubi.data.paging.*
 import com.giussepr.mubi.data.repository.datasource.TvShowRemoteDataSource
+import com.giussepr.mubi.data.repository.datasource.local.TvShowLocalDataSource
 import com.giussepr.mubi.domain.error.ApiException
 import com.giussepr.mubi.domain.error.DomainException
-import com.giussepr.mubi.domain.model.Result
-import com.giussepr.mubi.domain.model.SeasonDetail
-import com.giussepr.mubi.domain.model.TvShowDetail
+import com.giussepr.mubi.domain.model.*
 import com.giussepr.mubi.domain.repository.TvShowRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class TvShowRepositoryImpl @Inject constructor(private val tvShowRemoteDataSource: TvShowRemoteDataSource) :
+class TvShowRepositoryImpl @Inject constructor(
+  private val tvShowRemoteDataSource: TvShowRemoteDataSource,
+  private val tvShowLocalDataSource: TvShowLocalDataSource
+) :
   TvShowRepository {
 
   override fun getTopRatedTvShows() = Pager(
@@ -107,6 +110,12 @@ class TvShowRepositoryImpl @Inject constructor(private val tvShowRemoteDataSourc
       }
     } catch (e: Exception) {
       emit(Result.Error(DomainException(e.message ?: "Something went wrong")))
+    }
+  }
+
+  override fun getLocalFavoriteTvShows(): Flow<List<FavoriteTvShow>> {
+    return tvShowLocalDataSource.getAllFavoriteTvShows().map { favoriteTvShows ->
+      favoriteTvShows.map { it.toDomainFavoriteTvShow() }
     }
   }
 }

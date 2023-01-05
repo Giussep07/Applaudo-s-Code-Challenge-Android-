@@ -6,11 +6,8 @@
 package com.giussepr.mubi.domain.repository
 
 import androidx.paging.PagingData
-import com.giussepr.mubi.domain.model.TvShow
+import com.giussepr.mubi.domain.model.*
 import kotlinx.coroutines.flow.Flow
-import com.giussepr.mubi.domain.model.Result
-import com.giussepr.mubi.domain.model.SeasonDetail
-import com.giussepr.mubi.domain.model.TvShowDetail
 
 interface TvShowRepository {
   fun getTopRatedTvShows(): Flow<PagingData<TvShow>>
@@ -20,4 +17,5 @@ interface TvShowRepository {
   fun searchTvShowsByTerm(searchTerm: String): Flow<PagingData<TvShow>>
   fun getTvShowDetails(tvShowId: Int): Flow<Result<TvShowDetail>>
   fun getTvShowSeasonDetails(tvShowId: Int, seasonNumber: Int): Flow<Result<SeasonDetail>>
+  fun getLocalFavoriteTvShows(): Flow<List<FavoriteTvShow>>
 }
