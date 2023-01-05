@@ -36,4 +36,7 @@ object DatabaseModule {
 
   @Provides
   fun provideTvShowRemoteKeyDao(mubiDatabase: MubiDatabase) = mubiDatabase.tvShowRemoteKeyDao()
+
+  @Provides
+  fun provideTopRatedTvShowDao(mubiDatabase: MubiDatabase) = mubiDatabase.topRatedTvShowDao()
 }
