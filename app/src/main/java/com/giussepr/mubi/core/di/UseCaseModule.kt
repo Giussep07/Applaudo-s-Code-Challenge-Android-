@@ -43,4 +43,20 @@ object UseCaseModule {
   @Provides
   fun provideGetTvShowSeasonDetailsUseCase(tvShowRepository: TvShowRepository) =
     GetTvShowSeasonDetailsUseCase(tvShowRepository)
+
+  @Provides
+  fun provideGetLocalFavoriteTvShowsUseCase(tvShowRepository: TvShowRepository) =
+    GetLocalFavoriteTvShowsUseCase(tvShowRepository)
+
+  @Provides
+  fun provideCheckIfTvShowIsFavoriteUseCase(tvShowRepository: TvShowRepository) =
+    CheckIfTvShowIsFavoriteUseCase(tvShowRepository)
+
+  @Provides
+  fun provideRemoveLocalFavoriteTvShowUseCase(tvShowRepository: TvShowRepository) =
+    RemoveLocalFavoriteTvShowUseCase(tvShowRepository)
+
+  @Provides
+  fun provideSaveLocalFavoriteTvShowUseCase(tvShowRepository: TvShowRepository) =
+    SaveLocalFavoriteTvShowUseCase(tvShowRepository)
 }

@@ -5,16 +5,24 @@
 
 package com.giussepr.mubi.domain.model
 
+import com.giussepr.mubi.data.database.entity.FavoriteTvShowEntity
+
 data class FavoriteTvShow(
   val id: Int,
-  val backdropPath: String?,
-  val firstAirDate: String?,
-  val name: String,
-  val originalLanguage: String,
+  val imageUrl: String,
   val originalName: String,
+  val name: String,
   val overview: String,
-  val popularity: Double,
-  val posterPath: String?,
   val voteAverage: Double,
-  val voteCount: Int
-)
+) {
+  fun toDataFavoriteTvShow(): FavoriteTvShowEntity {
+    return FavoriteTvShowEntity(
+      id = id,
+      imageUrl = imageUrl,
+      name = name,
+      originalName = originalName,
+      overview = overview,
+      voteAverage = voteAverage,
+    )
+  }
+}

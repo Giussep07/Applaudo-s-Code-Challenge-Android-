@@ -12,6 +12,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -73,7 +75,11 @@ fun TvShowDetailScreen(
       horizontalAlignment = Alignment.CenterHorizontally
     ) {
       // Header
-      TvShowDetailsHeader(uiTvShowDetail = uiTvShowDetail, navController = navController)
+      TvShowDetailsHeader(
+        uiTvShowDetail = uiTvShowDetail,
+        viewModel = viewModel,
+        navController = navController
+      )
 
       val state = viewModel.uiState.collectAsState().value
 
@@ -151,7 +157,11 @@ fun TvShowDetailScreen(
 }
 
 @Composable
-fun TvShowDetailsHeader(uiTvShowDetail: UiTvShowDetail, navController: NavHostController) {
+fun TvShowDetailsHeader(
+  uiTvShowDetail: UiTvShowDetail,
+  viewModel: TvShowDetailViewModel,
+  navController: NavHostController
+) {
   Box(
     modifier = Modifier
       .fillMaxWidth()
@@ -180,6 +190,26 @@ fun TvShowDetailsHeader(uiTvShowDetail: UiTvShowDetail, navController: NavHostCo
       Icon(
         modifier = Modifier.size(24.dp),
         imageVector = Icons.Filled.ArrowBack,
+        contentDescription = stringResource(R.string.navigate_back_description),
+        tint = White
+      )
+    }
+    // Favorite Icon button
+    val isFavorite = viewModel.isFavorite.collectAsState().value
+    val favoriteIcon = if (isFavorite) {
+      Icons.Filled.Favorite
+    } else {
+      Icons.Filled.FavoriteBorder
+    }
+    IconButton(
+      onClick = { viewModel.onFavoriteButtonClicked(uiTvShowDetail) },
+      modifier = Modifier
+        .size(56.dp)
+        .align(Alignment.TopEnd)
+    ) {
+      Icon(
+        modifier = Modifier.size(24.dp),
+        imageVector = favoriteIcon,
         contentDescription = stringResource(R.string.navigate_back_description),
         tint = White
       )

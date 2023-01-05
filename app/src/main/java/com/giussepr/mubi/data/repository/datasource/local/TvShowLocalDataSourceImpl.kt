@@ -16,4 +16,16 @@ class TvShowLocalDataSourceImpl @Inject constructor(private val favoriteTvShowDa
   override fun getAllFavoriteTvShows(): Flow<List<FavoriteTvShowEntity>> {
     return favoriteTvShowDao.getAll()
   }
+
+  override suspend fun saveFavoriteTvShow(favoriteTvShow: FavoriteTvShowEntity) {
+    favoriteTvShowDao.insert(favoriteTvShow)
+  }
+
+  override suspend fun getLocalFavoriteShowById(tvShowId: Int): FavoriteTvShowEntity? {
+    return favoriteTvShowDao.getFavoriteTvShowById(tvShowId)
+  }
+
+  override suspend fun removeFavoriteTvShow(tvShowId: Int) {
+    favoriteTvShowDao.deleteById(tvShowId)
+  }
 }

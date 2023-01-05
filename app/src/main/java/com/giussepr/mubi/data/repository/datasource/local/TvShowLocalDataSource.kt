@@ -10,4 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface TvShowLocalDataSource {
   fun getAllFavoriteTvShows(): Flow<List<FavoriteTvShowEntity>>
+  suspend fun saveFavoriteTvShow(favoriteTvShow: FavoriteTvShowEntity)
+  suspend fun getLocalFavoriteShowById(tvShowId: Int): FavoriteTvShowEntity?
+  suspend fun removeFavoriteTvShow(tvShowId: Int)
 }

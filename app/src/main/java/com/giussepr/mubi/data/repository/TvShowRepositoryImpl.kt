@@ -118,4 +118,32 @@ class TvShowRepositoryImpl @Inject constructor(
       favoriteTvShows.map { it.toDomainFavoriteTvShow() }
     }
   }
+
+  override fun saveLocalFavoriteTvShow(favoriteTvShow: FavoriteTvShow): Flow<Result<Boolean>> = flow {
+    try {
+      tvShowLocalDataSource.saveFavoriteTvShow(favoriteTvShow.toDataFavoriteTvShow())
+      emit(Result.Success(true))
+    } catch (e: Exception) {
+      emit(Result.Error(DomainException(e.message ?: "Something went wrong")))
+    }
+  }
+
+  override fun removeLocalFavoriteTvShow(tvShowId: Int): Flow<Result<Boolean>> = flow {
+    try {
+      tvShowLocalDataSource.removeFavoriteTvShow(tvShowId)
+      emit(Result.Success(true))
+    } catch (e: Exception) {
+      emit(Result.Error(DomainException(e.message ?: "Something went wrong")))
+    }
+  }
+
+  override fun getLocalFavoriteShowById(tvShowId: Int): Flow<Result<FavoriteTvShow?>> = flow {
+    try {
+      val favoriteTvShow =
+        tvShowLocalDataSource.getLocalFavoriteShowById(tvShowId)?.toDomainFavoriteTvShow()
+      emit(Result.Success(favoriteTvShow))
+    } catch (e: Exception) {
+      emit(Result.Error(DomainException(e.message ?: "Something went wrong")))
+    }
+  }
 }
