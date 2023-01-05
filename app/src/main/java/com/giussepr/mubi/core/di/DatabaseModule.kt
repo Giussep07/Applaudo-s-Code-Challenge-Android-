@@ -26,7 +26,9 @@ object DatabaseModule {
       appContext,
       MubiDatabase::class.java,
       "mubi_database"
-    ).build()
+    )
+      .addMigrations(*MubiDatabase.MIGRATIONS)
+      .build()
   }
 
   @Provides
