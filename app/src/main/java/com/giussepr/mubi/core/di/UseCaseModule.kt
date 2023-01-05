@@ -39,4 +39,8 @@ object UseCaseModule {
   @Provides
   fun provideGetTvShowDetailsUseCase(tvShowRepository: TvShowRepository) =
     GetTvShowDetailsUseCase(tvShowRepository)
+
+  @Provides
+  fun provideGetTvShowSeasonDetailsUseCase(tvShowRepository: TvShowRepository) =
+    GetTvShowSeasonDetailsUseCase(tvShowRepository)
 }

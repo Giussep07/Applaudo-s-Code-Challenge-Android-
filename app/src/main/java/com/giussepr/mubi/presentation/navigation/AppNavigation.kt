@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.giussepr.mubi.presentation.screens.home.HomeScreen
 import com.giussepr.mubi.presentation.screens.search.SearchScreen
+import com.giussepr.mubi.presentation.screens.seasondetail.SeasonDetailScreen
 import com.giussepr.mubi.presentation.screens.splash.SplashScreen
 import com.giussepr.mubi.presentation.screens.tvshowdetail.TvShowDetailScreen
 
@@ -36,6 +37,17 @@ fun AppNavigation(navController: NavHostController) {
       )
     ) {
       TvShowDetailScreen(navController)
+    }
+    composable(
+      route = AppScreens.SeasonDetail.route
+        .plus("?{tvShowId}")
+        .plus("?{seasonNumber}"),
+      arguments = listOf(
+        navArgument("tvShowId") { type = NavType.IntType },
+        navArgument("seasonNumber") { type = NavType.IntType },
+      )
+    ) {
+      SeasonDetailScreen(navController)
     }
   }
 }

@@ -6,6 +6,7 @@
 package com.giussepr.mubi.data.repository.datasource
 
 import com.giussepr.mubi.data.api.TmdbApi
+import com.giussepr.mubi.data.model.SeasonDetailsDTO
 import com.giussepr.mubi.data.model.TvShowDetailsDTO
 import com.giussepr.mubi.data.model.TvShowResponseDTO
 import com.giussepr.mubi.presentation.util.Constants
@@ -34,4 +35,10 @@ class TvShowRemoteDataSourceImpl(
 
   override suspend fun getTvShowDetails(tvShowId: Int): Response<TvShowDetailsDTO> =
     tmdbApi.getTvShowDetails(tvShowId = tvShowId, apiKey = apiKey)
+
+  override suspend fun getTvShowSeasonDetails(
+    tvShowId: Int,
+    seasonNumber: Int
+  ): Response<SeasonDetailsDTO> =
+    tmdbApi.getSeasonDetails(tvShowId = tvShowId, seasonNumber = seasonNumber, apiKey = apiKey)
 }

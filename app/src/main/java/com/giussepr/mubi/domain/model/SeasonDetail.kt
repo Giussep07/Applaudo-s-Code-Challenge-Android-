@@ -5,7 +5,7 @@
 
 package com.giussepr.mubi.domain.model
 
-data class TvShowDetail(
-  val id: Int,
-  val seasons: List<Season>
+data class SeasonDetail(
+  val seasonName: String,
+  val episodes: List<Episode>
 )

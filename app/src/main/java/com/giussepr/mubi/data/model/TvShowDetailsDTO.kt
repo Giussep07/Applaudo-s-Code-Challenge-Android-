@@ -8,9 +8,11 @@ package com.giussepr.mubi.data.model
 import com.giussepr.mubi.domain.model.TvShowDetail
 
 data class TvShowDetailsDTO(
+  val id: Int,
   val seasons: List<SeasonDTO>
 ) {
   fun toDomainTvShowDetail() = TvShowDetail(
+    id = id,
     seasons = seasons.map { it.toDomainSeason() }
   )
 }

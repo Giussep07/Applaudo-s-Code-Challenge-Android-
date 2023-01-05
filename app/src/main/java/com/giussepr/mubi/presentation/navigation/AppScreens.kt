@@ -10,8 +10,13 @@ sealed class AppScreens(val route: String) {
   object Home : AppScreens("home")
   object Search : AppScreens("search")
   object TvShowDetail : AppScreens("tv_show_detail")
+  object SeasonDetail : AppScreens("season_detail")
 
   fun withArg(arg: String): String {
     return "$route?$arg"
+  }
+
+  fun withArgs(vararg args: String): String {
+    return "$route?${args.joinToString("?")}"
   }
 }

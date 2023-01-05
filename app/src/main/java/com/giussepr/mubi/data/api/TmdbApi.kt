@@ -5,6 +5,7 @@
 
 package com.giussepr.mubi.data.api
 
+import com.giussepr.mubi.data.model.SeasonDetailsDTO
 import com.giussepr.mubi.data.model.TvShowDetailsDTO
 import com.giussepr.mubi.data.model.TvShowResponseDTO
 import retrofit2.Response
@@ -56,5 +57,13 @@ interface TmdbApi {
     @Query("api_key") apiKey: String,
     @Query("language") language: String = "en-US"
   ): Response<TvShowDetailsDTO>
+
+  @GET("tv/{tv_id}/season/{season_number}")
+  suspend fun getSeasonDetails(
+    @Path("tv_id") tvShowId: Int,
+    @Path("season_number") seasonNumber: Int,
+    @Query("api_key") apiKey: String,
+    @Query("language") language: String = "en-US"
+  ): Response<SeasonDetailsDTO>
 
 }

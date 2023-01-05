@@ -32,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.giussepr.mubi.R
 import com.giussepr.mubi.domain.model.Season
+import com.giussepr.mubi.presentation.navigation.AppScreens
 import com.giussepr.mubi.presentation.screens.tvshowdetail.model.UiTvShowDetail
 import com.giussepr.mubi.presentation.theme.*
 import com.giussepr.mubi.presentation.widgets.MubiRatingBar
@@ -56,7 +57,7 @@ fun TvShowSeasonItemPreview() {
     posterPath = "https://image.tmdb.org/t/p/w780/kyhi1OjpifFkfo8gXrRvf9jI7SJ.jpg",
     seasonNumber = 3
   )
-  TvShowSeasonItem(season = season)
+  TvShowSeasonItem(season = season, onSeasonClicked = {})
 }
 
 @Composable
@@ -129,7 +130,13 @@ fun TvShowDetailScreen(
           }
           is TvShowDetailViewModel.UiState.Success -> {
             items(items = state.tvShowDetail.seasons) {
-              TvShowSeasonItem(season = it)
+              TvShowSeasonItem(season = it, onSeasonClicked = { season ->
+                val route = AppScreens.SeasonDetail.withArgs(
+                  state.tvShowDetail.id.toString(),
+                  season.seasonNumber.toString()
+                )
+                navController.navigate(route)
+              })
             }
           }
           is TvShowDetailViewModel.UiState.Error -> {
@@ -219,13 +226,16 @@ fun TvShowDetailsHeader(uiTvShowDetail: UiTvShowDetail, navController: NavHostCo
   }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun TvShowSeasonItem(season: Season) {
+fun TvShowSeasonItem(season: Season, onSeasonClicked: (Season) -> Unit) {
   Card(
     modifier = Modifier
       .fillMaxWidth()
       .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-      .height(180.dp)
+      .height(180.dp),
+    shape = MaterialTheme.shapes.large,
+    onClick = { onSeasonClicked(season) }
   ) {
     Row(modifier = Modifier.fillMaxWidth()) {
       // Season poster

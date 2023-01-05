@@ -42,7 +42,7 @@ import kotlin.math.ceil
 @Composable
 @Preview
 fun MubiTopAppBarPreview() {
-  MubiTopAppBar(rememberNavController(), {}, {})
+  MubiTopAppBar(rememberNavController(), title = stringResource(R.string.tv_shows), {}, {})
 }
 
 @Composable
@@ -54,13 +54,14 @@ fun MubiRatingBarPreview() {
 @Composable
 fun MubiTopAppBar(
   navController: NavHostController,
+  title: String = stringResource(R.string.tv_shows),
   onSearchClicked: () -> Unit,
   onProfileClicked: () -> Unit
 ) {
   TopAppBar(
     title = {
       Text(
-        text = stringResource(R.string.tv_shows),
+        text = title,
         style = MaterialTheme.typography.h6,
         color = White
       )

@@ -9,6 +9,7 @@ import androidx.paging.PagingData
 import com.giussepr.mubi.domain.model.TvShow
 import kotlinx.coroutines.flow.Flow
 import com.giussepr.mubi.domain.model.Result
+import com.giussepr.mubi.domain.model.SeasonDetail
 import com.giussepr.mubi.domain.model.TvShowDetail
 
 interface TvShowRepository {
@@ -18,4 +19,5 @@ interface TvShowRepository {
   fun getAiringTodayTvShows(): Flow<PagingData<TvShow>>
   fun searchTvShowsByTerm(searchTerm: String): Flow<PagingData<TvShow>>
   fun getTvShowDetails(tvShowId: Int): Flow<Result<TvShowDetail>>
+  fun getTvShowSeasonDetails(tvShowId: Int, seasonNumber: Int): Flow<Result<SeasonDetail>>
 }

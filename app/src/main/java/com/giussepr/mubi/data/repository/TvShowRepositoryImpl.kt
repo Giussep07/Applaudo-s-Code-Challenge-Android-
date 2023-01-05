@@ -13,6 +13,7 @@ import com.giussepr.mubi.data.repository.datasource.TvShowRemoteDataSource
 import com.giussepr.mubi.domain.error.ApiException
 import com.giussepr.mubi.domain.error.DomainException
 import com.giussepr.mubi.domain.model.Result
+import com.giussepr.mubi.domain.model.SeasonDetail
 import com.giussepr.mubi.domain.model.TvShowDetail
 import com.giussepr.mubi.domain.repository.TvShowRepository
 import com.google.gson.Gson
@@ -56,6 +57,38 @@ class TvShowRepositoryImpl @Inject constructor(private val tvShowRemoteDataSourc
         response.body()?.let {
           emit(Result.Success(it.toDomainTvShowDetail()))
         } ?: emit(Result.Error(DomainException("Error getting tv show details")))
+      } else {
+        response.errorBody()?.let { errorResponseBody ->
+          val gson = Gson()
+          val responseErrorBody =
+            gson.fromJson(errorResponseBody.string(), ResponseErrorBody::class.java)
+
+          emit(
+            Result.Error(
+              ApiException(
+                responseErrorBody.statusCode,
+                responseErrorBody.statusMessage
+              )
+            )
+          )
+        } ?: emit(Result.Error(DomainException("Unknown error")))
+      }
+    } catch (e: Exception) {
+      emit(Result.Error(DomainException(e.message ?: "Something went wrong")))
+    }
+  }
+
+  override fun getTvShowSeasonDetails(
+    tvShowId: Int,
+    seasonNumber: Int
+  ): Flow<Result<SeasonDetail>> = flow {
+    try {
+      val response = tvShowRemoteDataSource.getTvShowSeasonDetails(tvShowId, seasonNumber)
+
+      if (response.isSuccessful) {
+        response.body()?.let {
+          emit(Result.Success(it.toDomainSeasonDetail()))
+        } ?: emit(Result.Error(DomainException("Error getting tv show season details")))
       } else {
         response.errorBody()?.let { errorResponseBody ->
           val gson = Gson()
