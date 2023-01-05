@@ -17,6 +17,7 @@ import com.giussepr.mubi.domain.model.*
 import com.giussepr.mubi.domain.repository.TvShowRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -113,9 +114,13 @@ class TvShowRepositoryImpl @Inject constructor(
     }
   }
 
-  override fun getLocalFavoriteTvShows(): Flow<List<FavoriteTvShow>> {
-    return tvShowLocalDataSource.getAllFavoriteTvShows().map { favoriteTvShows ->
-      favoriteTvShows.map { it.toDomainFavoriteTvShow() }
+  override fun getLocalFavoriteTvShows(): Flow<Result<List<FavoriteTvShow>>> = flow {
+    try {
+      tvShowLocalDataSource.getAllFavoriteTvShows().map { favoriteTvShows ->
+        emit(Result.Success(favoriteTvShows.map { it.toDomainFavoriteTvShow() }))
+      }.collect()
+    } catch (e: Exception) {
+      emit(Result.Error(DomainException(e.message ?: "Something went wrong")))
     }
   }
 

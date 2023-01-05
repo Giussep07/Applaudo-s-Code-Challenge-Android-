@@ -6,6 +6,7 @@
 package com.giussepr.mubi.domain.model
 
 import com.giussepr.mubi.data.database.entity.FavoriteTvShowEntity
+import com.giussepr.mubi.presentation.screens.tvshowdetail.model.UiTvShowDetail
 
 data class FavoriteTvShow(
   val id: Int,
@@ -23,6 +24,17 @@ data class FavoriteTvShow(
       originalName = originalName,
       overview = overview,
       voteAverage = voteAverage,
+    )
+  }
+
+  fun toUiTvShowDetail(): UiTvShowDetail {
+    return UiTvShowDetail(
+      id = id,
+      imageUrl = imageUrl,
+      originalName = originalName,
+      name = name,
+      averageRate = voteAverage,
+      overview = overview,
     )
   }
 }

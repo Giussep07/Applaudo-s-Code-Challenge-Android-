@@ -17,7 +17,7 @@ interface TvShowRepository {
   fun searchTvShowsByTerm(searchTerm: String): Flow<PagingData<TvShow>>
   fun getTvShowDetails(tvShowId: Int): Flow<Result<TvShowDetail>>
   fun getTvShowSeasonDetails(tvShowId: Int, seasonNumber: Int): Flow<Result<SeasonDetail>>
-  fun getLocalFavoriteTvShows(): Flow<List<FavoriteTvShow>>
+  fun getLocalFavoriteTvShows(): Flow<Result<List<FavoriteTvShow>>>
   fun saveLocalFavoriteTvShow(favoriteTvShow: FavoriteTvShow): Flow<Result<Boolean>>
   fun removeLocalFavoriteTvShow(tvShowId: Int): Flow<Result<Boolean>>
   fun getLocalFavoriteShowById(tvShowId: Int): Flow<Result<FavoriteTvShow?>>
