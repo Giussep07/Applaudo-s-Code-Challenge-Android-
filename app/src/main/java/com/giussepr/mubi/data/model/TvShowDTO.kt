@@ -58,7 +58,7 @@ data class TvShowDTO(
   fun toDataTvShowEntity(): TopRatedTvShowEntity {
     return TopRatedTvShowEntity(
       tvShowId = id,
-      backdropPath = backdropPath ?: posterPath ?: "",
+      backdropPath = backdropPath ?: "",
       firstAirDate = firstAirDate ?: "",
       name = name,
       originalLanguage = originalLanguage,
@@ -68,15 +68,15 @@ data class TvShowDTO(
       posterPath = posterPath ?: "",
       voteAverage = voteAverage,
       voteCount = voteCount,
-      imageUrl = "$IMAGE_BASE_URL$backdropPath",
-      detailImageUrl = "$DETAIL_IMAGE_BASE_URL$backdropPath",
+      imageUrl = getImageUrl(),
+      detailImageUrl = getDetailImageUrl(),
     )
   }
 
   fun toDataPopularTvShowEntity(): PopularTvShowEntity {
     return PopularTvShowEntity(
       tvShowId = id,
-      backdropPath = backdropPath ?: posterPath ?: "",
+      backdropPath = backdropPath ?: "",
       firstAirDate = firstAirDate ?: "",
       name = name,
       originalLanguage = originalLanguage,
@@ -86,15 +86,15 @@ data class TvShowDTO(
       posterPath = posterPath ?: "",
       voteAverage = voteAverage,
       voteCount = voteCount,
-      imageUrl = "$IMAGE_BASE_URL$backdropPath",
-      detailImageUrl = "$DETAIL_IMAGE_BASE_URL$backdropPath",
+      imageUrl = getImageUrl(),
+      detailImageUrl = getDetailImageUrl(),
     )
   }
 
   fun toDataOnTvShowEntity(): OnTvShowEntity {
     return OnTvShowEntity(
       tvShowId = id,
-      backdropPath = backdropPath ?: posterPath ?: "",
+      backdropPath = backdropPath ?: "",
       firstAirDate = firstAirDate ?: "",
       name = name,
       originalLanguage = originalLanguage,
@@ -104,15 +104,15 @@ data class TvShowDTO(
       posterPath = posterPath ?: "",
       voteAverage = voteAverage,
       voteCount = voteCount,
-      imageUrl = "$IMAGE_BASE_URL$backdropPath",
-      detailImageUrl = "$DETAIL_IMAGE_BASE_URL$backdropPath",
+      imageUrl = getImageUrl(),
+      detailImageUrl = getDetailImageUrl(),
     )
   }
 
   fun toDataAiringTodayTvShowEntity(): AiringTodayTvShowEntity {
     return AiringTodayTvShowEntity(
       tvShowId = id,
-      backdropPath = backdropPath ?: posterPath ?: "",
+      backdropPath = backdropPath ?: "",
       firstAirDate = firstAirDate ?: "",
       name = name,
       originalLanguage = originalLanguage,
@@ -122,9 +122,17 @@ data class TvShowDTO(
       posterPath = posterPath ?: "",
       voteAverage = voteAverage,
       voteCount = voteCount,
-      imageUrl = "$IMAGE_BASE_URL$backdropPath",
-      detailImageUrl = "$DETAIL_IMAGE_BASE_URL$backdropPath",
+      imageUrl = getImageUrl(),
+      detailImageUrl = getDetailImageUrl(),
     )
+  }
+
+  private fun getImageUrl(): String {
+    return "$IMAGE_BASE_URL${backdropPath ?: posterPath ?: ""}"
+  }
+
+  private fun getDetailImageUrl(): String {
+    return "$DETAIL_IMAGE_BASE_URL${backdropPath ?: posterPath ?: ""}"
   }
 
   companion object {
