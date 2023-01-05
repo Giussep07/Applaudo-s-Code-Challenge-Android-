@@ -21,10 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.giussepr.mubi.domain.model.Episode
-import com.giussepr.mubi.presentation.theme.Background
-import com.giussepr.mubi.presentation.theme.ColorText
-import com.giussepr.mubi.presentation.theme.HintTextColor
-import com.giussepr.mubi.presentation.theme.Purple
+import com.giussepr.mubi.presentation.theme.*
 import com.giussepr.mubi.presentation.widgets.MubiImage
 import com.giussepr.mubi.presentation.widgets.MubiTopAppBar
 
@@ -102,7 +99,12 @@ fun SeasonDetailScreen(
           }
         }
         is SeasonDetailViewModel.UiState.Error -> {
-          Text(state.message)
+          Text(
+            modifier = Modifier.padding(16.dp),
+            text = state.message,
+            style = MaterialTheme.typography.h6,
+            color = Red
+          )
         }
       }
     }

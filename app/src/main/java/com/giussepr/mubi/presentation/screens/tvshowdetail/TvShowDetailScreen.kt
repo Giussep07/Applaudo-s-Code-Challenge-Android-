@@ -146,7 +146,12 @@ fun TvShowDetailScreen(
           }
           is TvShowDetailViewModel.UiState.Error -> {
             item {
-              Text(state.message)
+              Text(
+                modifier = Modifier.padding(16.dp),
+                text = state.message,
+                style = MaterialTheme.typography.h6,
+                color = Red
+              )
             }
           }
         }
