@@ -11,6 +11,7 @@ sealed class AppScreens(val route: String) {
   object Search : AppScreens("search")
   object TvShowDetail : AppScreens("tv_show_detail")
   object SeasonDetail : AppScreens("season_detail")
+  object Profile : AppScreens("profile")
 
   fun withArg(arg: String): String {
     return "$route?$arg"

@@ -8,4 +8,8 @@
   <string name="no_tv_shows_results">No Tv shows results</string>
   <string name="summary_title">Summary</string>
   <string name="season_episodes">%1$d Episodes</string>
+  <string name="profile_photo">Profile photo</string>
+  <string name="giussep_ricardo">Giussep Ricardo Cachaya</string>
+  <string name="giussep_ricardo_username">\@giussepr</string>
+  <string name="favorite_tv_shows">My favorites</string>
 </resources>

@@ -53,7 +53,7 @@ fun HomeScreen(navController: NavHostController, viewModel: HomeViewModel = hilt
     topBar = {
       MubiTopAppBar(navController = navController,
         onSearchClicked = { navController.navigate(AppScreens.Search.route) },
-        onProfileClicked = { /*TODO*/ })
+        onProfileClicked = { navController.navigate(AppScreens.Profile.route) })
     }
   ) { paddingValues ->
     Column(

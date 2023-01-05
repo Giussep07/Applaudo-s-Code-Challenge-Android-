@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.giussepr.mubi.presentation.screens.home.HomeScreen
+import com.giussepr.mubi.presentation.screens.profile.ProfileScreen
 import com.giussepr.mubi.presentation.screens.search.SearchScreen
 import com.giussepr.mubi.presentation.screens.seasondetail.SeasonDetailScreen
 import com.giussepr.mubi.presentation.screens.splash.SplashScreen
@@ -48,6 +49,9 @@ fun AppNavigation(navController: NavHostController) {
       )
     ) {
       SeasonDetailScreen(navController)
+    }
+    composable(AppScreens.Profile.route) {
+      ProfileScreen(navController)
     }
   }
 }
