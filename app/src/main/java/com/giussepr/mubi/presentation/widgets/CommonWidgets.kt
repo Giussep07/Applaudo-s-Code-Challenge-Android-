@@ -187,6 +187,7 @@ fun TvShowListItem(tvShow: TvShow, onTvShowItemClicked: () -> Unit) {
       .fillMaxWidth()
       .padding(start = 8.dp, end = 8.dp, top = 16.dp),
     shape = MaterialTheme.shapes.large,
+    elevation = 4.dp,
     onClick = { onTvShowItemClicked() }
   ) {
     Column(
@@ -209,7 +210,7 @@ fun TvShowListItem(tvShow: TvShow, onTvShowItemClicked: () -> Unit) {
         style = MaterialTheme.typography.subtitle2,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
-        color = ColorText
+        color = MaterialTheme.colors.onSurface
       )
       // Tv Show Rating
       MubiRatingBar(

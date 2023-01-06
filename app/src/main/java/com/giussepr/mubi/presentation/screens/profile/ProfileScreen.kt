@@ -84,7 +84,7 @@ fun ProfileScreen(navController: NavHostController, viewModel: ProfileViewModel 
       Text(
         text = stringResource(id = R.string.giussep_ricardo),
         style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Medium),
-        color = ColorText,
+        color = MaterialTheme.colors.onSurface,
         modifier = Modifier.padding(top = 12.dp)
       )
 
@@ -92,7 +92,7 @@ fun ProfileScreen(navController: NavHostController, viewModel: ProfileViewModel 
       Text(
         text = stringResource(id = R.string.giussep_ricardo_username),
         style = MaterialTheme.typography.caption,
-        color = SubtleText,
+        color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
       )
 
       // Favorite tv shows
@@ -100,7 +100,7 @@ fun ProfileScreen(navController: NavHostController, viewModel: ProfileViewModel 
         Text(
           text = stringResource(id = R.string.favorite_tv_shows),
           style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Medium),
-          color = ColorText,
+          color = MaterialTheme.colors.onSurface,
           modifier = Modifier.padding(top = 24.dp, start = 16.dp)
         )
         Spacer(Modifier.size(16.dp))
@@ -166,6 +166,7 @@ fun FavoriteTvShowListItem(tvShow: FavoriteTvShow, onTvShowItemClicked: () -> Un
     modifier = Modifier
       .width(180.dp)
       .height(240.dp),
+    elevation = 4.dp,
     shape = MaterialTheme.shapes.large,
     onClick = { onTvShowItemClicked() }
   ) {
@@ -206,7 +207,7 @@ fun FavoriteTvShowListItem(tvShow: FavoriteTvShow, onTvShowItemClicked: () -> Un
         style = MaterialTheme.typography.subtitle2,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
-        color = ColorText
+        color = MaterialTheme.colors.onSurface
       )
       // Tv Show Rating
       MubiRatingBar(

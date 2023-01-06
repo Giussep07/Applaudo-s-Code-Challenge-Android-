@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -67,22 +68,22 @@ fun TvShowDetailScreen(
   viewModel: TvShowDetailViewModel = hiltViewModel()
 ) {
   viewModel.uiTvShowDetail.collectAsState().value?.let { uiTvShowDetail ->
-    Column(
-      modifier = Modifier
-        .fillMaxSize()
-        .background(Background),
-      horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    Scaffold(modifier = Modifier
+      .fillMaxSize(), topBar = {
       // Header
       TvShowDetailsHeader(
         uiTvShowDetail = uiTvShowDetail,
         viewModel = viewModel,
         navController = navController
       )
-
+    }) { paddingValues ->
       val state = viewModel.uiState.collectAsState().value
 
-      LazyColumn(modifier = Modifier.fillMaxSize()) {
+      LazyColumn(
+        modifier = Modifier
+          .fillMaxSize()
+          .padding(paddingValues)
+      ) {
         item {
           // Tv Show Summary
           Column(
@@ -104,12 +105,13 @@ fun TvShowDetailScreen(
                 .fillMaxWidth()
                 .padding(top = 8.dp, bottom = 24.dp),
               style = MaterialTheme.typography.body2.copy(
-                color = ColorText,
+                color = MaterialTheme.colors.onBackground,
                 shadow = Shadow(
                   color = Color.Black.copy(alpha = 0.25f),
                   offset = Offset(0f, 4f),
                   blurRadius = 4f
-                )
+                ),
+                letterSpacing = 0.25.sp,
               ),
             )
           }
@@ -122,7 +124,6 @@ fun TvShowDetailScreen(
               Box(
                 modifier = Modifier
                   .fillMaxSize()
-                  .background(Background)
                   .padding(16.dp),
                 contentAlignment = Alignment.Center
               ) {
@@ -266,6 +267,7 @@ fun TvShowSeasonItem(season: Season, onSeasonClicked: (Season) -> Unit) {
       .fillMaxWidth()
       .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
       .height(180.dp),
+    elevation = 4.dp,
     shape = MaterialTheme.shapes.large,
     onClick = { onSeasonClicked(season) }
   ) {
@@ -287,7 +289,7 @@ fun TvShowSeasonItem(season: Season, onSeasonClicked: (Season) -> Unit) {
         Text(
           modifier = Modifier,
           text = season.name,
-          style = MaterialTheme.typography.h6.copy(color = ColorText),
+          style = MaterialTheme.typography.h6.copy(color = MaterialTheme.colors.onSurface),
         )
         // Season Episodes
         Text(
@@ -303,8 +305,9 @@ fun TvShowSeasonItem(season: Season, onSeasonClicked: (Season) -> Unit) {
           modifier = Modifier,
           text = season.overview,
           style = MaterialTheme.typography.body2.copy(
-            color = ColorText,
-            fontWeight = FontWeight.Normal
+            color = MaterialTheme.colors.onSurface,
+            fontWeight = FontWeight.Normal,
+            letterSpacing = 0.25.sp
           ),
           maxLines = 5,
           overflow = TextOverflow.Ellipsis,

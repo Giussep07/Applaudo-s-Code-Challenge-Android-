@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -118,6 +119,7 @@ fun EpisodeItem(episode: Episode) {
       .fillMaxWidth()
       .padding(start = 16.dp, end = 16.dp)
       .height(180.dp),
+    elevation = 4.dp,
     shape = MaterialTheme.shapes.large,
   ) {
     Row(modifier = Modifier.fillMaxWidth()) {
@@ -138,7 +140,7 @@ fun EpisodeItem(episode: Episode) {
         Text(
           modifier = Modifier,
           text = episode.name,
-          style = MaterialTheme.typography.h6.copy(color = ColorText),
+          style = MaterialTheme.typography.h6.copy(color = MaterialTheme.colors.onSurface),
           maxLines = 2,
           overflow = TextOverflow.Ellipsis,
         )
@@ -147,8 +149,9 @@ fun EpisodeItem(episode: Episode) {
           modifier = Modifier.padding(vertical = 8.dp),
           text = episode.overview,
           style = MaterialTheme.typography.body2.copy(
-            color = ColorText,
-            fontWeight = FontWeight.Normal
+            color = MaterialTheme.colors.onSurface,
+            fontWeight = FontWeight.Normal,
+            letterSpacing = 0.25.sp
           ),
           maxLines = 4,
           overflow = TextOverflow.Ellipsis,

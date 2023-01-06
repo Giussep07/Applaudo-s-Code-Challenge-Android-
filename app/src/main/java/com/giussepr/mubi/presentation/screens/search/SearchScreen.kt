@@ -48,8 +48,7 @@ fun SearchScreenPreview() {
 @Composable
 fun SearchScreen(navController: NavHostController, viewModel: SearchViewModel = hiltViewModel()) {
   Scaffold(modifier = Modifier
-    .fillMaxSize()
-    .background(Background),
+    .fillMaxSize(),
     topBar = {
       SearchTopAppBar(
         navController = navController,
@@ -138,7 +137,7 @@ fun SearchTopAppBar(navController: NavHostController, onSearchButtonClicked: (St
     modifier = Modifier
       .fillMaxWidth()
       .height(56.dp),
-    color = MaterialTheme.colors.primary,
+    color = MaterialTheme.colors.primarySurface,
     elevation = AppBarDefaults.TopAppBarElevation
   ) {
     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
