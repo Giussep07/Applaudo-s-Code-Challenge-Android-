@@ -9,6 +9,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -55,104 +56,113 @@ fun ProfileScreen(navController: NavHostController, viewModel: ProfileViewModel 
       onSearchClicked = {},
       onProfileClicked = {})
   }) { paddingValues ->
-    Column(
+    LazyColumn(
       modifier = Modifier
         .fillMaxSize()
         .padding(paddingValues),
       horizontalAlignment = Alignment.CenterHorizontally
     ) {
       // Profile photo
-      Box(
-        modifier = Modifier
-          .padding(top = 24.dp)
-          .size(142.dp)
-          .border(16.dp, color = Purple.copy(alpha = 0.1f), shape = CircleShape),
-        contentAlignment = Alignment.Center
-      ) {
-        Image(
+      item {
+        Box(
           modifier = Modifier
-            .clip(CircleShape)
-            .size(100.dp),
-          painter = painterResource(id = R.drawable.giussep_photo_profile),
-          contentDescription = stringResource(
-            id = R.string.profile_photo
+            .padding(top = 24.dp)
+            .size(142.dp)
+            .border(16.dp, color = Purple.copy(alpha = 0.1f), shape = CircleShape),
+          contentAlignment = Alignment.Center
+        ) {
+          Image(
+            modifier = Modifier
+              .clip(CircleShape)
+              .size(100.dp),
+            painter = painterResource(id = R.drawable.giussep_photo_profile),
+            contentDescription = stringResource(
+              id = R.string.profile_photo
+            )
           )
-        )
-      }
-
-      // User name
-      Text(
-        text = stringResource(id = R.string.giussep_ricardo),
-        style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Medium),
-        color = MaterialTheme.colors.onSurface,
-        modifier = Modifier.padding(top = 12.dp)
-      )
-
-      // Username
-      Text(
-        text = stringResource(id = R.string.giussep_ricardo_username),
-        style = MaterialTheme.typography.caption,
-        color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
-      )
-
-      // Favorite tv shows
-      Column(modifier = Modifier.fillMaxWidth()) {
-        Text(
-          text = stringResource(id = R.string.favorite_tv_shows),
-          style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Medium),
-          color = MaterialTheme.colors.onSurface,
-          modifier = Modifier.padding(top = 24.dp, start = 16.dp)
-        )
-        Spacer(Modifier.size(16.dp))
-        when (val state = viewModel.uiState.collectAsState().value) {
-          is ProfileViewModel.ProfileUiState.Loading -> {
-            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-              CircularProgressIndicator()
-            }
-          }
-          is ProfileViewModel.ProfileUiState.Success -> {
-            if (state.favoriteTvShows.isEmpty()) {
-              Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                Text(
-                  text = stringResource(id = R.string.no_favorite_tv_shows),
-                  style = MaterialTheme.typography.subtitle1,
-                  color = SubtleText,
-                )
-              }
-            } else {
-              LazyRow(
-                modifier = Modifier
-                  .fillMaxWidth()
-                  .padding(start = 16.dp),
-                contentPadding = PaddingValues(end = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-              ) {
-                items(state.favoriteTvShows) { favoriteTvShow ->
-                  FavoriteTvShowListItem(tvShow = favoriteTvShow, onTvShowItemClicked = {
-                    viewModel.onTvShowItemClicked(favoriteTvShow)
-                  })
-                }
-              }
-            }
-          }
-          is ProfileViewModel.ProfileUiState.Error -> {
-            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-              Text(
-                text = state.message,
-                style = MaterialTheme.typography.subtitle1,
-                color = Red,
-              )
-            }
-          }
         }
       }
 
-      LaunchedEffect(key1 = Unit) {
-        viewModel.navigateToTvShowDetails.collectLatest { value ->
-          if (value.isNotEmpty()) {
-            viewModel.navigateToTvShowDetailsHandled()
-            navController.navigate(AppScreens.TvShowDetail.withArg(value))
+      // User name
+      item {
+        Text(
+          text = stringResource(id = R.string.giussep_ricardo),
+          style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Medium),
+          color = MaterialTheme.colors.onSurface,
+          modifier = Modifier.padding(top = 12.dp)
+        )
+      }
+
+      // Username
+      item {
+        Text(
+          text = stringResource(id = R.string.giussep_ricardo_username),
+          style = MaterialTheme.typography.caption,
+          color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
+        )
+      }
+
+      // Favorite tv shows
+      item {
+        Column(modifier = Modifier.fillMaxWidth()) {
+          Text(
+            text = stringResource(id = R.string.favorite_tv_shows),
+            style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Medium),
+            color = MaterialTheme.colors.onSurface,
+            modifier = Modifier.padding(top = 24.dp, start = 16.dp)
+          )
+          Spacer(Modifier.size(16.dp))
+          when (val state = viewModel.uiState.collectAsState().value) {
+            is ProfileViewModel.ProfileUiState.Loading -> {
+              Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+              }
+            }
+            is ProfileViewModel.ProfileUiState.Success -> {
+              if (state.favoriteTvShows.isEmpty()) {
+                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                  Text(
+                    text = stringResource(id = R.string.no_favorite_tv_shows),
+                    style = MaterialTheme.typography.subtitle1,
+                    color = SubtleText,
+                  )
+                }
+              } else {
+                LazyRow(
+                  modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp),
+                  contentPadding = PaddingValues(end = 16.dp),
+                  horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                  items(state.favoriteTvShows) { favoriteTvShow ->
+                    FavoriteTvShowListItem(tvShow = favoriteTvShow, onTvShowItemClicked = {
+                      viewModel.onTvShowItemClicked(favoriteTvShow)
+                    })
+                  }
+                }
+              }
+            }
+            is ProfileViewModel.ProfileUiState.Error -> {
+              Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Text(
+                  text = state.message,
+                  style = MaterialTheme.typography.subtitle1,
+                  color = Red,
+                )
+              }
+            }
           }
+          Spacer(Modifier.size(16.dp))
+        }
+      }
+    }
+
+    LaunchedEffect(key1 = Unit) {
+      viewModel.navigateToTvShowDetails.collectLatest { value ->
+        if (value.isNotEmpty()) {
+          viewModel.navigateToTvShowDetailsHandled()
+          navController.navigate(AppScreens.TvShowDetail.withArg(value))
         }
       }
     }
