@@ -26,11 +26,7 @@ class ProfileViewModel @Inject constructor(private val getLocalFavoriteTvShowsUs
   private val _navigateToTvShowDetails = MutableStateFlow("")
   val navigateToTvShowDetails: StateFlow<String> = _navigateToTvShowDetails
 
-  init {
-    getFavoriteTvShows()
-  }
-
-  private fun getFavoriteTvShows() {
+  fun getFavoriteTvShows() {
     getLocalFavoriteTvShowsUseCase().map { result ->
       result.fold(
         onSuccess = { favoriteTvShows ->

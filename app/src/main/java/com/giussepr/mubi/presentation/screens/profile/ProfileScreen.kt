@@ -56,6 +56,9 @@ fun ProfileScreen(navController: NavHostController, viewModel: ProfileViewModel 
       onSearchClicked = {},
       onProfileClicked = {})
   }) { paddingValues ->
+    LaunchedEffect(key1 = Unit) {
+      viewModel.getFavoriteTvShows()
+    }
     LazyColumn(
       modifier = Modifier
         .fillMaxSize()
