@@ -11,6 +11,7 @@ import com.giussepr.mubi.domain.repository.TvShowRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import com.giussepr.mubi.domain.model.Result
 
 class CheckIfTvShowIsFavoriteUseCase @Inject constructor(
   private val tvShowRepository: TvShowRepository,
@@ -19,8 +20,8 @@ class CheckIfTvShowIsFavoriteUseCase @Inject constructor(
   operator fun invoke(tvShowId: Int): Flow<Result<Boolean>> {
     return tvShowRepository.getLocalFavoriteShowById(tvShowId).map { result ->
       result.fold(
-        onSuccess = { Result.success(it != null) },
-        onFailure = { Result.failure(DomainException(it.message)) }
+        onSuccess = { Result.Success(it != null) },
+        onFailure = { Result.Error(DomainException(it.message)) }
       )
     }
   }

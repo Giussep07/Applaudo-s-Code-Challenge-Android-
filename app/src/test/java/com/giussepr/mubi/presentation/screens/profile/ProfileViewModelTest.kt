@@ -18,6 +18,7 @@ import org.junit.After
 import org.junit.Before
 import com.giussepr.mubi.domain.model.Result
 import com.giussepr.mubi.util.MainCoroutineRule
+import io.mockk.confirmVerified
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 import org.junit.Assert.*
@@ -40,6 +41,7 @@ class ProfileViewModelTest {
 
   @After
   fun tearDown() {
+    confirmVerified(getLocalFavoriteTvShowsUseCase)
   }
 
   @Test

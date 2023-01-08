@@ -37,7 +37,8 @@ fun AppNavigation(navController: NavHostController) {
         navArgument("tvShowDetailJson") { type = NavType.StringType },
       )
     ) {
-      TvShowDetailScreen(navController)
+      val tvShowDetailJson = it.arguments?.getString("tvShowDetailJson")
+      TvShowDetailScreen(navController = navController, tvShowDetailJson = tvShowDetailJson)
     }
     composable(
       route = AppScreens.SeasonDetail.route

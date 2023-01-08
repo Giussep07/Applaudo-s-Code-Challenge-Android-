@@ -5,7 +5,6 @@
 
 package com.giussepr.mubi.presentation.screens.tvshowdetail
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.giussepr.mubi.domain.model.TvShowDetail
@@ -20,14 +19,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TvShowDetailViewModel @Inject constructor(
-  savedStateHandle: SavedStateHandle,
   private val getTvShowDetailsUseCase: GetTvShowDetailsUseCase,
   private val saveLocalFavoriteTvShowsUseCase: SaveLocalFavoriteTvShowUseCase,
   private val removeLocalFavoriteTvShowUseCase: RemoveLocalFavoriteTvShowUseCase,
-  private val checkIfTvShowIsFavoriteUseCase: CheckIfTvShowIsFavoriteUseCase
+  private val checkIfTvShowIsFavoriteUseCase: CheckIfTvShowIsFavoriteUseCase,
+  private val _isFavorite: MutableStateFlow<Boolean>
 ) : ViewModel() {
 
-  private var tvShowId: Int = -1
+  var tvShowId: Int = -1
 
   private val _uiTvShowDetail: MutableStateFlow<UiTvShowDetail?> = MutableStateFlow(null)
   val uiTvShowDetail: MutableStateFlow<UiTvShowDetail?> = _uiTvShowDetail
@@ -35,13 +34,12 @@ class TvShowDetailViewModel @Inject constructor(
   private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Loading)
   val uiState: MutableStateFlow<UiState> = _uiState
 
-  private val _isFavorite: MutableStateFlow<Boolean> = MutableStateFlow(false)
   val isFavorite: MutableStateFlow<Boolean> = _isFavorite
 
-  init {
-    savedStateHandle.get<String>("tvShowDetailJson")?.let { tvShowDetailJson ->
+  fun init(tvShowDetailJson: String?) {
+    tvShowDetailJson?.let { tvShowDetailJsonString ->
       val gson = Gson()
-      val uiTvShowDetail = gson.fromJson(tvShowDetailJson, UiTvShowDetail::class.java)
+      val uiTvShowDetail = gson.fromJson(tvShowDetailJsonString, UiTvShowDetail::class.java)
       this.tvShowId = uiTvShowDetail.id
       _uiTvShowDetail.value = uiTvShowDetail
     }
@@ -50,7 +48,7 @@ class TvShowDetailViewModel @Inject constructor(
     checkIfTvShowIsFavorite()
   }
 
-  private fun getTvShowDetail() {
+  fun getTvShowDetail() {
     getTvShowDetailsUseCase.invoke(tvShowId).map { result ->
       result.fold(
         onSuccess = { _uiState.value = UiState.Success(it) },
@@ -59,7 +57,7 @@ class TvShowDetailViewModel @Inject constructor(
     }.flowOn(Dispatchers.IO).launchIn(viewModelScope)
   }
 
-  private fun checkIfTvShowIsFavorite() {
+  fun checkIfTvShowIsFavorite() {
     checkIfTvShowIsFavoriteUseCase.invoke(tvShowId).map { result ->
       result.fold(
         onSuccess = { _isFavorite.value = it },
@@ -78,7 +76,7 @@ class TvShowDetailViewModel @Inject constructor(
     }
   }
 
-  private fun saveLocalFavoriteTvShow(uiTvShowDetail: UiTvShowDetail) {
+  fun saveLocalFavoriteTvShow(uiTvShowDetail: UiTvShowDetail) {
     saveLocalFavoriteTvShowsUseCase(uiTvShowDetail.toDomainFavoriteTvShow()).map { result ->
       result.fold(
         onSuccess = { _isFavorite.value = it },
@@ -89,7 +87,7 @@ class TvShowDetailViewModel @Inject constructor(
     }.flowOn(Dispatchers.IO).launchIn(viewModelScope)
   }
 
-  private fun removeLocalFavoriteTvShow(uiTvShowDetail: UiTvShowDetail) {
+  fun removeLocalFavoriteTvShow(uiTvShowDetail: UiTvShowDetail) {
     removeLocalFavoriteTvShowUseCase(uiTvShowDetail.id).map { result ->
       result.fold(
         onSuccess = { _isFavorite.value = !_isFavorite.value },

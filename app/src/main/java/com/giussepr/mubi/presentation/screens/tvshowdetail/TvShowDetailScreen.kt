@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,7 +44,8 @@ import com.giussepr.mubi.presentation.widgets.MubiRatingBar
 @Preview(showSystemUi = true, showBackground = true)
 fun TvShowDetailPreview() {
   TvShowDetailScreen(
-    rememberNavController()
+    navController = rememberNavController(),
+    tvShowDetailJson = ""
   )
 }
 
@@ -65,8 +67,13 @@ fun TvShowSeasonItemPreview() {
 @Composable
 fun TvShowDetailScreen(
   navController: NavHostController,
+  tvShowDetailJson: String?,
   viewModel: TvShowDetailViewModel = hiltViewModel()
 ) {
+  LaunchedEffect(key1 = Unit) {
+    viewModel.init(tvShowDetailJson)
+  }
+
   viewModel.uiTvShowDetail.collectAsState().value?.let { uiTvShowDetail ->
     Scaffold(modifier = Modifier
       .fillMaxSize(), topBar = {
